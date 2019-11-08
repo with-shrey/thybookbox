@@ -18,9 +18,10 @@ export const history = createBrowserHistory();
 
 const configureStore = () => {
     const store = createStore(Reducers(history),
-        reduxDevTools,
         compose(
-            applyMiddleware(sagaMiddleware,
+            reduxDevTools,
+            applyMiddleware(
+                sagaMiddleware,
                 routerMiddleware(history), // for dispatching history actions
             ))
     );

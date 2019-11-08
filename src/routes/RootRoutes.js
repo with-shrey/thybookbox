@@ -1,9 +1,12 @@
 import React from "react";
+import {Switch, Route} from "react-router-dom"
 
 function RootRoutes() {
     return (
         <div>
-            <Route></Route>
+            <Switch>
+                <Route/>
+            </Switch>
         </div>
     );
 }
