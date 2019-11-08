@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
+import 'index.css';
+import App from 'App';
 import * as serviceWorker from './serviceWorker';
 import {Provider} from "react-redux";
-import configureStore, {history} from "src/root/redux/store";
+import configureStore, {history} from "root/redux/store";
 import {ConnectedRouter} from "connected-react-router";
+
 const render = Component => {
     return ReactDOM.render(
         <Provider store={configureStore}>

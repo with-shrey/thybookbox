@@ -3,10 +3,10 @@
  */
 
 import {applyMiddleware, compose, createStore} from 'redux';
-import {Reducers} from "src/root/redux/reducers";
+import {Reducers} from "root/redux/reducers";
 import {createBrowserHistory} from 'history'
-import {createSagaMiddleware} from 'redux-saga'
-import {rootSaga} from "src/root/saga/rootSaga";
+import createSagaMiddleware from 'redux-saga'
+import {rootSaga} from "root/saga/rootSaga";
 import {routerMiddleware} from 'connected-react-router'
 
 
