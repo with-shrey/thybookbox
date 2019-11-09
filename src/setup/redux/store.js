@@ -1,12 +1,8 @@
-/*
- * store.js
- */
-
 import {applyMiddleware, compose, createStore} from 'redux';
-import {Reducers} from "root/redux/reducers";
+import {combineAllReducers} from "setup/redux/reducers";
 import {createBrowserHistory} from 'history'
 import createSagaMiddleware from 'redux-saga'
-import {rootSaga} from "root/saga/rootSaga";
+import rootSaga from "setup/saga/rootSaga";
 import {routerMiddleware} from 'connected-react-router'
 
 
@@ -17,13 +13,12 @@ const sagaMiddleware = createSagaMiddleware();
 export const history = createBrowserHistory();
 
 const configureStore = () => {
-    const store = createStore(Reducers(history),
+    const store = createStore(
+        combineAllReducers(history),
         compose(
-            reduxDevTools,
-            applyMiddleware(
-                sagaMiddleware,
-                routerMiddleware(history), // for dispatching history actions
-            ))
+            applyMiddleware(sagaMiddleware, routerMiddleware(history)),
+            reduxDevTools
+        ) // for dispatching history actions
     );
 
     sagaMiddleware.run(rootSaga);
@@ -31,7 +26,7 @@ const configureStore = () => {
     if (process.env.NODE_ENV !== 'production') {
         if (module.hot) {
             module.hot.accept('./reducers', () => {
-                store.replaceReducer(Reducers);
+                store.replaceReducer(combineAllReducers(history));
             });
         }
     }

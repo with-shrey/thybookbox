@@ -1,0 +1,21 @@
+@import "scss/mixins";
+
+.gridContainer {
+  @extend .grid-container;
+  height: 100%;
+  width: 100%;
+  padding: 50px;
+  grid-template-columns: 70% 30%;
+  align-content: center;
+  background-size: cover;
+  background-image: url("https://store-images.s-microsoft.com/image/apps.53618.9007199266251419.bd166cf6-0618-4c6c-90ea-b8ca22fa48f9.01ede99b-9eeb-4be2-8751-e55b6f031ca2?mode=scale&q=90&h=1080&w=1920");
+  @include mobile-and-tablet {
+    grid-template-columns: auto;
+    justify-content: center;
+  }
+}
+
+.formArea {
+  grid-column: 2;
+  width: 100%;
+}

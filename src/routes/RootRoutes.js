@@ -1,11 +1,14 @@
 import React from "react";
-import {Switch, Route} from "react-router-dom"
+import {Switch, Route, Redirect} from "react-router-dom";
+import LoginSignupPage from "containers/LoginSignupPage/Loadable";
+import AuthRoutes from "routes/AuthRoutes";
 
 function RootRoutes() {
     return (
-        <div>
+        <div style={{height: "100%", width: "100%"}}>
             <Switch>
-                <Route/>
+                <Route path="/auth" component={LoginSignupPage}/>
+                <Redirect to={"/auth/login"}/>
             </Switch>
         </div>
     );

@@ -1,0 +1,23 @@
+.gradient {
+  background: linear-gradient(to right, #e0413d 0%, #ff711a 100%);
+  font-size: 15px;
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  letter-spacing: normal;
+  min-height: 40px;
+  border-radius: 50px;
+  margin-top: 10px;
+}
+
+.text {
+  color: #fff;
+  border-radius: 30px;
+  padding: 13px 24px;
+  display: block;
+  text-transform: uppercase;
+  transition: all .5s;
+  text-align: center;
+  outline: 0;
+  text-decoration: none;
+  background-color: transparent;
+}

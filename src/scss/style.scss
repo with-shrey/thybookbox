@@ -1,0 +1,20 @@
+body {
+  margin: 0px;
+}
+
+* {
+  box-sizing: border-box;
+  font-family: Dosis, sans-serif;
+}
+
+input, textarea {
+  background: rgba(255, 255, 255, 1);
+  padding: 14px;
+  border: none;
+  -webkit-box-shadow: none;
+  box-shadow: none;
+  font-weight: 300;
+  width: 100%;
+  font-size: 13px;
+  border-radius: 5px;
+}
