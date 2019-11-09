@@ -6,7 +6,9 @@ import {Provider} from "react-redux";
 import configureStore, {history} from "setup/redux/store";
 import {ConnectedRouter} from "connected-react-router";
 import 'scss/style.scss';
-import * as firebase from 'firebase';
+import * as firebase from 'firebase/app';
+import 'firebase/auth';
+import 'firebase/firestore';
 
 const render = Component => {
     firebase.initializeApp({

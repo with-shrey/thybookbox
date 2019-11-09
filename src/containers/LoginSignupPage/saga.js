@@ -2,7 +2,7 @@ import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {push} from 'connected-react-router';
 import {REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
 import {makeSelectUser} from "containers/LoginSignupPage/selectors";
-import * as firebase from "firebase";
+import * as firebase from "firebase/app";
 import {registerUserError, registerUserSuccess} from "containers/LoginSignupPage/actions";
 
 /**
@@ -14,8 +14,11 @@ export function* registerUserOnFirebase() {
     console.log("registerUserOnFirebase")
     const user = yield select(makeSelectUser());
     try {
+        const auth = firebase.auth();
         // Call our request helper (see 'utils/request')
-        const data = yield call(firebase.auth().createUserWithEmailAndPassword, user.email, user.password);
+        const data = yield call(
+            [auth, auth.createUserWithEmailAndPassword],
+            user.email, user.password);
         yield put(registerUserSuccess(user));
         yield put(push('/'));
     } catch (err) {

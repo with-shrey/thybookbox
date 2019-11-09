@@ -8,7 +8,7 @@ function RootRoutes() {
         <div style={{height: "100%", width: "100%"}}>
             <Switch>
                 <Route path="/auth" component={LoginSignupPage}/>
-                <Redirect to={"/auth/login"}/>
+                <Redirect to={"/auth"}/>
             </Switch>
         </div>
     );

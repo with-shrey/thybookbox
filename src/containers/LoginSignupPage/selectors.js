@@ -14,5 +14,15 @@ const makeSelectUser = () =>
             }
         },
     );
+const makeSelectAuthStatus = () =>
+    createSelector(
+        selectUser,
+        userState => {
+            return {
+                loading: userState.loading,
+                error: userState.error
+            }
+        },
+    );
 
-export {selectUser, makeSelectUser};
+export {selectUser, makeSelectUser, makeSelectAuthStatus};
