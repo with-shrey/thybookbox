@@ -1,9 +1,10 @@
 import {all, spawn, call} from "redux-saga/effects";
-import LoginSignupSaga from 'containers/LoginSignupPage/saga';
+import {registerUser, loginUser} from 'containers/LoginSignupPage/saga';
 
 export default function* rootSaga() {
     const sagas = [
-        LoginSignupSaga
+        registerUser,
+        loginUser
     ];
 
     yield all(sagas.map(saga =>

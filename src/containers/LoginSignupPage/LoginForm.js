@@ -1,18 +1,21 @@
-import React from "react";
+import React, {useEffect} from "react";
 import style from './LoginSignupPage.module.scss';
 import {useDispatch, useSelector} from "react-redux";
 import {makeSelectUser, makeSelectAuthStatus} from "containers/LoginSignupPage/selectors";
-import {registerUser, updateUserField} from "containers/LoginSignupPage/actions";
+import {loginUser, resetUserReducer, updateUserField} from "containers/LoginSignupPage/actions";
 import ButtonComponent from 'components/ButtonComponent';
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
 
 function LoginForm() {
+    const dispatch = useDispatch();
+    useEffect(() => {
+        dispatch(resetUserReducer())
+    });
     const {email, password} = useSelector(makeSelectUser());
     const {loading, error} = useSelector(makeSelectAuthStatus());
-    const dispatch = useDispatch();
     const fieldChanged = (field) => (event) => dispatch(updateUserField(field, event.target.value));
-    const handleSubmit = () => dispatch(registerUser());
+    const handleSubmit = () => dispatch(loginUser());
     return (
         <div className={style.translucentBox}>
             <Helmet>

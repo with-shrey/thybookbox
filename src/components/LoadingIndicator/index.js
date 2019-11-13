@@ -1,7 +1,7 @@
 // @flow
 import * as React from "react";
 
-function LoadingIndicatorComponent() {
+function LoadingIndicator() {
     return (
         <div>
             Loading...
@@ -9,4 +9,4 @@ function LoadingIndicatorComponent() {
     )
 }
 
-export default LoadingIndicatorComponent;
+export default LoadingIndicator;

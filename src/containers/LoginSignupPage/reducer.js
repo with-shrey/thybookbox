@@ -1,8 +1,15 @@
 import produce from 'immer';
-import {REGISTER_NEW_USER_ERROR, REGISTER_NEW_USER_SUCCESS, UPDATE_USER_FIELD} from './constants';
+import {
+    REGISTER_NEW_USER_ERROR,
+    REGISTER_NEW_USER_SUCCESS,
+    UPDATE_USER_FIELD,
+    RESET_USER_REDUCER,
+    LOGIN_USER_SUCCESS, LOGIN_USER_ERROR
+} from './constants';
 
 // The initial state of the App
 export const initialState = {
+    uid: '',
     email: '',
     name: '',
     password: '',
@@ -18,11 +25,19 @@ const homeReducer = (state = initialState, action) =>
                 draft[action.field] = action.value;
                 break;
             case REGISTER_NEW_USER_SUCCESS:
+            case LOGIN_USER_SUCCESS:
                 draft.loading = false;
+                draft.uid = action.user.uid;
+                draft.email = action.user.email;
+                draft.name = action.user.displayName;
                 break;
             case REGISTER_NEW_USER_ERROR:
+            case LOGIN_USER_ERROR:
                 draft.loading = false;
                 draft.error = action.error;
+                break;
+            case RESET_USER_REDUCER:
+                draft = initialState;
                 break;
         }
     });
