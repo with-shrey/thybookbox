@@ -35,7 +35,7 @@ function BookUploadModalComponent(props) {
             <Modal.Header closeButton>
                 <Modal.Title>Add new book</Modal.Title>
             </Modal.Header>
-            <Modal.Body>
+            <Modal.Body className="translucentBox">
                 <form>
 
                     <div className="error">{error}</div>
@@ -53,9 +53,12 @@ function BookUploadModalComponent(props) {
                             </Spinner>
                         </div>
                     }
-                    <input value={url} onChange={fieldChanged('url')} type="text" placeholder="PDF Url" disabled/>
-                    <input value={title} onChange={fieldChanged('title')} type="text" placeholder="Title"/>
-                    <input value={cover} onChange={fieldChanged('cover')} type="text" placeholder="Cover Image URL"/>
+                    <input style={{marginTop: '20px'}} value={url} onChange={fieldChanged('url')} type="text"
+                           placeholder="PDF Url" disabled/>
+                    <input style={{marginTop: '20px'}} value={title} onChange={fieldChanged('title')} type="text"
+                           placeholder="Title"/>
+                    <input style={{marginTop: '20px'}} value={cover} onChange={fieldChanged('cover')} type="text"
+                           placeholder="Cover Image URL"/>
                 </form>
             </Modal.Body>
             {
