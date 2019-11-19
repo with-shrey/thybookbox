@@ -6,6 +6,7 @@ import {loginUser, resetUserReducer, updateUserField} from "containers/LoginSign
 import ButtonComponent from 'components/ButtonComponent';
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
+import InPlaceLoader from "components/InPlaceLoader";
 
 function LoginForm() {
     const dispatch = useDispatch();
@@ -16,6 +17,7 @@ function LoginForm() {
     const {loading, error} = useSelector(makeSelectAuthStatus());
     const fieldChanged = (field) => (event) => dispatch(updateUserField(field, event.target.value));
     const handleSubmit = () => dispatch(loginUser());
+    console.log(loading);
     return (
         <div className={style.translucentBox}>
             <Helmet>
@@ -25,7 +27,7 @@ function LoginForm() {
             {
                 error ? <div className={style.error}>{error}</div> : <div></div>
             }
-            <form>
+            <form style={{textAlign: 'center'}}>
                 <input
                     className={style.input}
                     type="email"
@@ -39,11 +41,18 @@ function LoginForm() {
                     name="email"
                     value={password}
                     onChange={fieldChanged('password')}/>
-                <ButtonComponent
-                    className={style.input}
-                    Link={<div>Login</div>}
-                    onClick={handleSubmit}
-                />
+                {
+                    loading ? (<InPlaceLoader
+                        className={style.input}
+                    />) : (
+                        <ButtonComponent
+                            className={style.input}
+                            link={<div>Login</div>}
+                            onClick={handleSubmit}
+                        />
+                    )
+                }
+
             </form>
             Not Registered ? <Link to="/auth/register"> Register Now</Link>
         </div>

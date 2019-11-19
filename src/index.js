@@ -10,18 +10,20 @@ import * as firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
+firebase.initializeApp({
+    apiKey: "AIzaSyB8fBz5udo_9qOxSuNJwDLJ7O19VsepFx0",
+    authDomain: "tbbreader.firebaseapp.com",
+    databaseURL: "https://tbbreader.firebaseio.com",
+    projectId: "tbbreader",
+    storageBucket: "tbbreader.appspot.com",
+    messagingSenderId: "355552118700",
+    appId: "1:355552118700:web:2ab54eda82ef4d28439c09"
+});
+const store = configureStore();
+
 const render = Component => {
-    firebase.initializeApp({
-        apiKey: "AIzaSyB8fBz5udo_9qOxSuNJwDLJ7O19VsepFx0",
-        authDomain: "tbbreader.firebaseapp.com",
-        databaseURL: "https://tbbreader.firebaseio.com",
-        projectId: "tbbreader",
-        storageBucket: "tbbreader.appspot.com",
-        messagingSenderId: "355552118700",
-        appId: "1:355552118700:web:2ab54eda82ef4d28439c09"
-    });
     return ReactDOM.render(
-        <Provider store={configureStore()}>
+        <Provider store={store}>
             <ConnectedRouter history={history}>
                 <Component/>
             </ConnectedRouter>
@@ -38,8 +40,8 @@ render(App);
 serviceWorker.unregister();
 
 if (module.hot) {
-    module.hot.accept('containers/AppContainer/App', () => {
-        const NextApp = require('containers/AppContainer/App').default;
+    module.hot.accept('./containers/AppContainer/App', () => {
+        const NextApp = require('./containers/AppContainer/App').default;
         render(NextApp);
     });
 }

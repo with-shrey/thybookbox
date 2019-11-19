@@ -3,9 +3,9 @@ import style from "components/ButtonComponent/Button.module.scss"
 
 function ButtonComponent(props) {
     return (
-        <div className={style.gradient} onClick={props.onClick}>
+        <div {...props} className={style.gradient}>
             <div className={style.text}>
-                {props.Link}
+                {props.link}
             </div>
         </div>
     )

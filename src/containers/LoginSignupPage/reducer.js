@@ -6,6 +6,7 @@ import {
     RESET_USER_REDUCER,
     LOGIN_USER_SUCCESS, LOGIN_USER_ERROR
 } from './constants';
+import {LOGIN_USER, REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
 
 // The initial state of the App
 export const initialState = {
@@ -23,6 +24,10 @@ const homeReducer = (state = initialState, action) =>
         switch (action.type) {
             case UPDATE_USER_FIELD:
                 draft[action.field] = action.value;
+                break;
+            case REGISTER_NEW_USER:
+            case LOGIN_USER:
+                draft.loading = true;
                 break;
             case REGISTER_NEW_USER_SUCCESS:
             case LOGIN_USER_SUCCESS:

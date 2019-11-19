@@ -29,7 +29,7 @@ export function* registerUserOnFirebase() {
             displayName: user.name
         });
         console.log(data.user, result);
-
+        localStorage.setItem('logged_in', 'true');
         yield put(registerUserSuccess(data.user));
         yield put(push('/'));
     } catch (err) {
@@ -49,6 +49,7 @@ export function* loginUserOnFirebase() {
             [auth, auth.signInWithEmailAndPassword],
             user.email, user.password);
         console.log(data.user);
+        localStorage.setItem('logged_in', 'true');
         yield put(loginUserSuccess(data.user));
         yield put(push('/'));
     } catch (err) {

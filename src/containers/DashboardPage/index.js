@@ -1,8 +1,11 @@
 import React from "react";
+import DashboardHeader from "containers/DashboardPage/DashboardHeader";
 
 function DashboardPage() {
     return (
-        <div></div>
+        <div>
+            <DashboardHeader/>
+        </div>
     )
 }
 

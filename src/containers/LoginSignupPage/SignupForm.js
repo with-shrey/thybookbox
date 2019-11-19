@@ -6,6 +6,7 @@ import {registerUser, resetUserReducer, updateUserField} from "containers/LoginS
 import ButtonComponent from 'components/ButtonComponent';
 import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
+import InPlaceLoader from "components/InPlaceLoader";
 
 function SignupForm() {
     const dispatch = useDispatch();
@@ -47,11 +48,17 @@ function SignupForm() {
                     name="email"
                     value={password}
                     onChange={fieldChanged('password')}/>
-                <ButtonComponent
-                    className={style.input}
-                    Link={<div>REGISTER</div>}
-                    onClick={handleSubmit}
-                />
+                {
+                    loading ? (<InPlaceLoader
+                        className={style.input}
+                    />) : (
+                        <ButtonComponent
+                            className={style.input}
+                            link={<div>Login</div>}
+                            onClick={handleSubmit}
+                        />
+                    )
+                }
             </form>
             Already Registered ? <Link to="/auth/login"> Login</Link>
         </div>
