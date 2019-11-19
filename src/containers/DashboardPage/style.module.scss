@@ -1,0 +1,23 @@
+@import "scss/mixins";
+
+.heading4 {
+  @extend .heading;
+  font-size: 30px;
+  text-align: left;
+  padding-top: 10px;
+}
+
+.container {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 100px;
+}
+
+.books {
+  display: grid;
+  grid-template-columns: auto auto auto auto;
+  grid-column-gap: 50px;
+  @include mobile-and-tablet {
+    grid-template-columns: auto auto;
+  }
+}

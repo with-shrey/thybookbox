@@ -1,12 +1,16 @@
 import {createSelector} from 'reselect';
 import {initialState} from './reducer';
 
-const selectHome = state => state.home || initialState;
+const selectUser = state => state.user || initialState;
 
-const makeSelectUsername = () =>
+const makeSelectUserName = () =>
     createSelector(
-        selectHome,
-        homeState => homeState.username,
+        selectUser,
+        userState => {
+            return {
+                name: userState.name
+            }
+        },
     );
 
-export {selectHome, makeSelectUsername};
+export {selectUser, makeSelectUserName};
