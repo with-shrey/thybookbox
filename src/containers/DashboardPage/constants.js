@@ -1,1 +1,11 @@
 export const CHANGE_USERNAME = 'containers/DashboardPage/CHANGE_USERNAME';
+export const UPLOAD_BOOK = 'containers/DashboardPage/UPLOAD_BOOK';
+export const UPLOAD_BOOK_SUCCESS = 'containers/DashboardPage/UPLOAD_BOOK_SUCCESS';
+export const UPLOAD_BOOK_ERROR = 'containers/DashboardPage/UPLOAD_BOOK_ERROR';
+export const UPLOAD_BOOK_FIELD_UPDATE = 'containers/DashboardPage/UPLOAD_BOOK_FIELD_UPDATE';
+export const SAVE_BOOK = 'containers/DashboardPage/SAVE_BOOK';
+export const SAVE_BOOK_SUCCESS = 'containers/DashboardPage/SAVE_BOOK_SUCCESS';
+export const SAVE_BOOK_ERROR = 'containers/DashboardPage/SAVE_BOOK_ERROR';
+export const FETCH_BOOK = 'containers/DashboardPage/FETCH_BOOK';
+export const FETCH_BOOK_SUCCESS = 'containers/DashboardPage/FETCH_BOOK_SUCCESS';
+export const FETCH_BOOK_ERROR = 'containers/DashboardPage/FETCH_BOOK_ERROR';

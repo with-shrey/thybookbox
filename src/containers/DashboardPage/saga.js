@@ -1,34 +1,84 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
-import {LOAD_REPOS} from 'containers/App/constants';
-import {reposLoaded, repoLoadingError} from 'containers/App/actions';
+import * as firebase from "firebase/app";
+import {makeSelectUploadFile} from "containers/DashboardPage/selectors";
+import {
+    fetchBooks,
+    fetchBooksFailure,
+    fetchBooksSuccess,
+    saveBookFailure,
+    saveBookSuccess,
+    uploadBookFailure,
+    uploadBookSuccess
+} from "containers/DashboardPage/actions";
+import {FETCH_BOOK, SAVE_BOOK, UPLOAD_BOOK} from "containers/DashboardPage/constants";
+import {makeSelectUserId} from "containers/LoginSignupPage/selectors";
 
-import request from 'utils/request';
-import {makeSelectUsername} from 'containers/HomePage/selectors';
+export function* fetchUserBooks() {
+    yield takeLatest(FETCH_BOOK, fetchUserBooksSaga);
+}
 
-/**
- * Github repos request/response handler
- */
-export function* getRepos() {
+function* fetchUserBooksSaga() {
+    const {uid} = yield select(makeSelectUserId());
+    const collection = firebase.firestore().collection('Books')
+        .where("userId", "==", uid);
+    try {
+        let books = yield call([collection, collection.get]);
+        books = books.docs.map(doc => {
+            return {...doc.data(), id: doc.id}
+        });
+        yield put(fetchBooksSuccess(books));
+    } catch (e) {
+        console.trace();
+        yield put(fetchBooksFailure(e));
+    }
+}
+
+export function* storeBook() {
+    yield takeLatest(SAVE_BOOK, storeBookSaga);
+}
+
+function* storeBookSaga() {
+    const {title, url, cover} = yield select(makeSelectUploadFile());
+    const {uid} = yield select(makeSelectUserId());
+    const collection = firebase.firestore().collection('Books');
+    try {
+        const book = yield call([collection, collection.add], {
+            title,
+            url,
+            cover,
+            userId: uid
+        });
+        yield put(saveBookSuccess());
+        yield put(fetchBooks());
+        yield call(fetchUserBooksSaga);
+    } catch (e) {
+        console.trace();
+        yield put(saveBookFailure(e));
+    }
+}
+
+export function* uploadBookSaga() {
     // Select username from store
-    const username = yield select(makeSelectUsername());
-    const requestURL = `https://api.github.com/users/${username}/repos?type=all&sort=updated`;
-
+    const {file} = yield select(makeSelectUploadFile());
+    const name = `upload/${new Date().getMilliseconds()}-${file.name}`;
+    const ref = firebase.storage().ref().child(name);
     try {
         // Call our request helper (see 'utils/request')
-        const repos = yield call(request, requestURL);
-        yield put(reposLoaded(repos, username));
+        const uploadResult = yield call([ref, ref.put], file);
+        const downloadUrl = yield call([ref, ref.getDownloadURL]);
+        yield put(uploadBookSuccess({url: downloadUrl}));
     } catch (err) {
-        yield put(repoLoadingError(err));
+        yield put(uploadBookFailure(err));
     }
 }
 
 /**
  * Root saga manages watcher lifecycle
  */
-export default function* githubData() {
+export function* uploadBook() {
     // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
     // By using `takeLatest` only the result of the latest API call is applied.
     // It returns task descriptor (just like fork) so we can continue execution
     // It will be cancelled automatically on component unmount
-    yield takeLatest(LOAD_REPOS, getRepos);
+    yield takeLatest(UPLOAD_BOOK, uploadBookSaga);
 }

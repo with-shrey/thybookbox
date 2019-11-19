@@ -5,7 +5,7 @@ function ButtonComponent(props) {
     return (
         <div {...props} className={style.gradient}>
             <div className={style.text}>
-                {props.link}
+                {props.link ? props.link : props.children}
             </div>
         </div>
     )

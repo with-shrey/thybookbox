@@ -14,6 +14,15 @@ const makeSelectUser = () =>
             }
         },
     );
+const makeSelectUserId = () =>
+    createSelector(
+        selectUser,
+        userState => {
+            return {
+                uid: userState.uid,
+            }
+        },
+    );
 const makeSelectAuthStatus = () =>
     createSelector(
         selectUser,
@@ -25,4 +34,4 @@ const makeSelectAuthStatus = () =>
         },
     );
 
-export {selectUser, makeSelectUser, makeSelectAuthStatus};
+export {selectUser, makeSelectUser, makeSelectAuthStatus, makeSelectUserId};
