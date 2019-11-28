@@ -66,7 +66,7 @@ export function* uploadBookSaga() {
         // Call our request helper (see 'utils/request')
         const uploadResult = yield call([ref, ref.put], file);
         const downloadUrl = yield call([ref, ref.getDownloadURL]);
-        yield put(uploadBookSuccess({url: downloadUrl}));
+        yield put(uploadBookSuccess({url: `${downloadUrl}&format=xyz.epub`}));
     } catch (err) {
         yield put(uploadBookFailure(err));
     }

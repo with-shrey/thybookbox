@@ -1,6 +1,7 @@
 import {all, spawn, call} from "redux-saga/effects";
 import {registerUser, loginUser} from 'containers/LoginSignupPage/saga';
 import {uploadBook, storeBook, fetchUserBooks} from "containers/DashboardPage/saga";
+import listenSelectedBook from "containers/ReaderPage/saga";
 
 export default function* rootSaga() {
     const sagas = [
@@ -8,7 +9,8 @@ export default function* rootSaga() {
         loginUser,
         uploadBook,
         storeBook,
-        fetchUserBooks
+        fetchUserBooks,
+        listenSelectedBook
     ];
 
     yield all(sagas.map(saga =>

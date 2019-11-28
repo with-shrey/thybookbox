@@ -57,6 +57,7 @@ const bookReducer = (state = initialState, action) =>
                 draft.loading = false;
                 draft.error = '';
                 draft.book = initialState.book;
+                break;
             case SAVE_BOOK_ERROR:
                 draft.loading = false;
                 draft.error = action.error;

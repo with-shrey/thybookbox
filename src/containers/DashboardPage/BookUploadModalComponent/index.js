@@ -9,9 +9,12 @@ import {
     makeSelectUploadFile,
     makeSelectUploadStatus
 } from "containers/DashboardPage/selectors";
+import Archive from 'epubjs/lib/archive';
+import ePubjs from 'epubjs';
 import {saveBook, uploadBook, uploadBookFieldUpdate} from "containers/DashboardPage/actions";
 import Spinner from "react-bootstrap/Spinner";
 import InPlaceLoader from "components/InPlaceLoader";
+import configureStore from "setup/redux/store";
 
 function BookUploadModalComponent(props) {
     const fileUpload = useRef(null);
@@ -44,7 +47,7 @@ function BookUploadModalComponent(props) {
                     <input type="file"
                            ref={fileUpload}
                            onChange={startFileUpload}
-                           accept=".pdf,.epub"
+                           accept=".epub,"
                     />
                     {
                         loading && <div> Uploading

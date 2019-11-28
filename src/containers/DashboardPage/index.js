@@ -30,7 +30,7 @@ function DashboardPage() {
                     {
                         books.length > 0 ?
                             books.map((book) => <BookComponent key={book.id} cover={book.cover} title={book.title}
-                                                               progress={60}/>) :
+                                                               progress={60} id={book.id}/>) :
                             (
                                 loading ? <div>Loading ...</div> : <div>No Books Found</div>
                             )
