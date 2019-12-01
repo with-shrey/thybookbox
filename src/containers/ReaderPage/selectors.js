@@ -8,6 +8,16 @@ const makeSelectSelectedBook = () =>
         selectSelectedBook,
         bookState => bookState.selected,
     );
+const makeSelectSelectedBookPageContent = () =>
+    createSelector(
+        selectSelectedBook,
+        bookState => bookState.selected.pageContent,
+    );
+const makeSelectBookCustomization = () =>
+    createSelector(
+        selectSelectedBook,
+        bookState => bookState.customization,
+    );
 const makeSelectSelectedBookStatus = () =>
     createSelector(
         selectSelectedBook,
@@ -19,4 +29,10 @@ const makeSelectSelectedBookStatus = () =>
         },
     );
 
-export {selectSelectedBook, makeSelectSelectedBook, makeSelectSelectedBookStatus};
+export {
+    selectSelectedBook,
+    makeSelectSelectedBook,
+    makeSelectSelectedBookStatus,
+    makeSelectSelectedBookPageContent,
+    makeSelectBookCustomization
+};

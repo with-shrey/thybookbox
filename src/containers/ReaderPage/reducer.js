@@ -1,5 +1,11 @@
 import produce from 'immer';
-import {SELECT_BOOK, SELECT_BOOK_ERROR, SELECT_BOOK_SUCCESS} from "containers/ReaderPage/constants";
+import {
+    GET_READER_CUSTOMIZATION,
+    GET_READER_CUSTOMIZATION_ERROR, GET_READER_CUSTOMIZATION_SUCCESS,
+    SELECT_BOOK,
+    SELECT_BOOK_ERROR,
+    SELECT_BOOK_SUCCESS, SET_PAGE_CONTENT
+} from "containers/ReaderPage/constants";
 
 // The initial state of the App
 export const initialState = {
@@ -9,7 +15,17 @@ export const initialState = {
         id: '',
         title: '',
         cover: '',
-        url: ''
+        url: '',
+        pageContent: ''
+    },
+    customization: {
+        fontSize: null,
+        fontColor: null,
+        backgroundColor: null,
+        backgroundImage: null,
+        soundClip: null,
+        fontFamily: null,
+        fontUrl: null
     }
 };
 
@@ -27,8 +43,20 @@ const selectedBook = (state = initialState, action) =>
                 draft.selected = action.book;
                 break;
             case SELECT_BOOK_ERROR:
+            case GET_READER_CUSTOMIZATION_ERROR:
                 draft.loading = false;
                 draft.error = action.error;
+                break;
+            case SET_PAGE_CONTENT:
+                draft.selected.pageContent = action.pageContent;
+                break;
+            case GET_READER_CUSTOMIZATION:
+                draft.loading = true;
+                draft.error = '';
+                break;
+            case GET_READER_CUSTOMIZATION_SUCCESS:
+                draft.loading = false;
+                draft.customization = action.customization;
                 break;
         }
     });

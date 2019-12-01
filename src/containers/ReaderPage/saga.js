@@ -1,8 +1,13 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
-import {SELECT_BOOK} from "containers/ReaderPage/constants";
+import {GET_READER_CUSTOMIZATION, SELECT_BOOK} from "containers/ReaderPage/constants";
 import * as firebase from "firebase";
-import {makeSelectSelectedBook} from "containers/ReaderPage/selectors";
-import {selectBookError, selectBookSuccess} from "containers/ReaderPage/actions";
+import {makeSelectSelectedBook, makeSelectSelectedBookPageContent} from "containers/ReaderPage/selectors";
+import {
+    getReaderCustomizationError,
+    getReaderCustomizationSuccess,
+    selectBookError,
+    selectBookSuccess
+} from "containers/ReaderPage/actions";
 
 export function* getSelectedBookSaga() {
     const selectedBook = yield select(makeSelectSelectedBook());
@@ -25,10 +30,30 @@ export function* getSelectedBookSaga() {
 }
 
 
-export default function* listenSelectedBook() {
-    // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-    // By using `takeLatest` only the result of the latest API call is applied.
-    // It returns task descriptor (just like fork) so we can continue execution
-    // It will be cancelled automatically on component unmount
+export function* listenSelectedBook() {
     yield takeLatest(SELECT_BOOK, getSelectedBookSaga);
+}
+
+function* getReaderCustomization() {
+    const pageContent = yield select(makeSelectSelectedBookPageContent());
+    console.log(pageContent);
+    try {
+        const customization = {
+            fontSize: '12px',
+            fontColor: '#7a93ff',
+            fontFamily: null,
+            fontUrl: null,
+            backgroundColor: '#7fff46',
+            backgroundImage: 'http://localhost:3000/static/media/logo-full.854ef618.png',
+            soundClip: 'http://soundbible.com/mp3/tasmanian-devil-daniel_simon.mp3',
+        };
+        yield put(getReaderCustomizationSuccess(customization))
+    } catch (e) {
+        console.error(e);
+        yield put(getReaderCustomizationError(e))
+    }
+}
+
+export function* listenGetReaderCustomization() {
+    yield takeLatest(GET_READER_CUSTOMIZATION, getReaderCustomization);
 }

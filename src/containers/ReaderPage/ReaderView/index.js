@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import EPub from "epubjs";
+import EPub, {Contents} from "epubjs";
 import defaultStyle from 'containers/ReaderPage/ReaderView/style';
+import getCfiRange from "utils/getCfiRange";
 
 class ReaderView extends Component {
     constructor(props) {
@@ -44,7 +45,22 @@ class ReaderView extends Component {
     }
 
     shouldComponentUpdate(nextProps) {
-        return !this.state.isLoaded || nextProps.location !== this.props.location;
+        const {customizations} = nextProps;
+
+        if (customizations.fontUrl) {
+            // Add Css to Head
+        }
+        if (customizations.fontFamily) {
+            this.rendition.themes.font(customizations.fontFamily);
+        }
+        if (customizations.fontSize) {
+            this.rendition.themes.override('font-size', customizations.fontSize);
+        }
+        if (customizations.fontColor) {
+            this.rendition.themes.override('color', customizations.fontColor)
+        }
+        return true;
+        // return !this.state.isLoaded || nextProps.location !== this.props.location || JSON.stringify(this.props.customizations) !== JSON.stringify(nextProps.customization);
     }
 
     componentDidUpdate(prevProps) {
@@ -59,14 +75,17 @@ class ReaderView extends Component {
 
     initReader() {
         const {toc} = this.state;
-        const {location, epubOptions, getRendition} = this.props;
+        const {location, epubOptions, getRendition, customizations} = this.props;
         const node = this.viewerRef.current;
         this.rendition = this.book.renderTo(node, {
             contained: true,
             width: "100%",
             height: "100%",
+            spread: "none",
             ...epubOptions
         });
+        this.rendition.themes.override("background", 'transparent');
+
         this.rendition.display(
             typeof location === "string" || typeof location === "number"
                 ? location
@@ -81,16 +100,21 @@ class ReaderView extends Component {
         };
         this.rendition.on("locationChanged", this.onLocationChange);
         this.rendition.on('relocated', location => this.props.pageChanged(location.start.displayed));
+
         getRendition && getRendition(this.rendition);
     }
 
     onLocationChange = loc => {
-        const {location, locationChanged} = this.props;
+        const {location, pageContentChanged} = this.props;
         const newLocation = loc && loc.start;
         if (location !== newLocation) {
             this.location = newLocation;
-            locationChanged && locationChanged(newLocation);
+            pageContentChanged && pageContentChanged(newLocation);
         }
+        const [a, b] = [this.rendition.currentLocation().start.cfi, this.rendition.currentLocation().end.cfi];
+        this.book.getRange(getCfiRange(a, b)).then(range => {
+            pageContentChanged && pageContentChanged(range.toString());
+        })
     };
 
     renderBook() {
@@ -116,7 +140,7 @@ class ReaderView extends Component {
 
 ReaderView.defaultProps = {
     loadingView: null,
-    locationChanged: null,
+    pageContentChanged: null,
     pageChanged: (pageJson) => {
     },
     tocChanged: null,
@@ -131,7 +155,7 @@ ReaderView.propTypes = {
     ]),
     loadingView: PropTypes.element,
     location: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
-    locationChanged: PropTypes.func,
+    pageContentChanged: PropTypes.func,
     pageChanged: PropTypes.func,
     tocChanged: PropTypes.func,
     styles: PropTypes.object,

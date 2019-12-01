@@ -1,3 +1,7 @@
 export const SELECT_BOOK = 'pages/ReaderPage/SELECT_BOOK';
 export const SELECT_BOOK_SUCCESS = 'pages/ReaderPage/SELECT_BOOK_SUCCESS';
 export const SELECT_BOOK_ERROR = 'pages/ReaderPage/SELECT_BOOK_ERROR';
+export const GET_READER_CUSTOMIZATION = 'pages/ReaderPage/GET_READER_CUSTOMIZATION';
+export const GET_READER_CUSTOMIZATION_SUCCESS = 'pages/ReaderPage/GET_READER_CUSTOMIZATION_SUCCESS';
+export const GET_READER_CUSTOMIZATION_ERROR = 'pages/ReaderPage/GET_READER_CUSTOMIZATION_ERROR';
+export const SET_PAGE_CONTENT = 'pages/ReaderPage/SET_PAGE_CONTENT';
