@@ -9,8 +9,10 @@ import {
     selectBookSuccess
 } from "containers/ReaderPage/actions";
 
-export function* getSelectedBookSaga() {
-    const selectedBook = yield select(makeSelectSelectedBook());
+export function* getSelectedBookSaga(action) {
+    const selectedBook = {
+        id: action.id
+    };
     console.log(selectedBook);
     const bookRef = firebase.firestore().collection('Books')
         .doc(selectedBook.id);
@@ -18,7 +20,7 @@ export function* getSelectedBookSaga() {
         let book = yield call([bookRef, bookRef.get]);
         if (book.exists) {
             book = {...book.data(), id: book.id};
-
+            console.log(book);
             yield put(selectBookSuccess(book));
         } else {
             throw new Error('Book Not Found')
