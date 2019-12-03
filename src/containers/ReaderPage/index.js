@@ -57,6 +57,11 @@ function ReaderPage(props) {
         console.log(a);
         a.play();
     }
+    if (!bookId) {
+        return (
+            <LoadingIndicator/>
+        )
+    }
     return (
         <div style={{
             height: '100vh',

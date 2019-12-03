@@ -44,7 +44,7 @@ function* getReaderCustomization() {
             fontFamily: null,
             fontUrl: null,
             backgroundColor: '#7fff46',
-            backgroundImage: 'http://localhost:3000/static/media/logo-full.854ef618.png',
+            backgroundImage: '/static/media/logo-full.854ef618.png',
             soundClip: 'http://soundbible.com/mp3/tasmanian-devil-daniel_simon.mp3',
         };
         yield put(getReaderCustomizationSuccess(customization))
