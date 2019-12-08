@@ -57,11 +57,6 @@ function ReaderPage(props) {
         console.log(a);
         a.play();
     }
-    if (!bookId) {
-        return (
-            <LoadingIndicator/>
-        )
-    }
     return (
         <div style={{
             height: '100vh',
@@ -84,19 +79,24 @@ function ReaderPage(props) {
             <div style={{height: "100%", width: '100vw', display: 'flex', justifyContent: 'center'}}>
 
                 <div style={{height: "100%", width: '70vw'}}>
-                    <ReaderView
-                        url={url}
-                        ref={readerRef}
-                        loadingView={<LoadingIndicator/>}
-                        pageChanged={({page, total}) => {
-                            setPageString(`${page}/${total}`)
-                        }}
-                        customizations={customizations}
-                        pageContentChanged={newContent => {
-                            dispatchSetPageContent(newContent.trim());
-                            dispatchGetReaderCustomization();
-                        }}
-                    />
+                    {
+                        url ? (
+                            <ReaderView
+                                url={url}
+                                ref={readerRef}
+                                loadingView={<LoadingIndicator/>}
+                                pageChanged={({page, total}) => {
+                                    setPageString(`${page}/${total}`)
+                                }}
+                                customizations={customizations}
+                                pageContentChanged={newContent => {
+                                    dispatchSetPageContent(newContent.trim());
+                                    dispatchGetReaderCustomization();
+                                }}
+                            />
+                        ) : <></>
+                    }
+
                 </div>
             </div>
         </div>
