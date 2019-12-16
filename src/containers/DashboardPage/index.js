@@ -17,7 +17,7 @@ function DashboardPage() {
     }, [uid]);
     const {loading, error} = useSelector(makeSelectSaveStatus());
     const {books} = useSelector(makeSelectBooksList());
-    const {books: publicBooks} = useSelector(makeSelectBooksList());
+    const publicBooks = [];//TODO: useSelector(makeSelectPublicBooksList());
     return (
         <div>
             <PageTitle>Dashboard</PageTitle>

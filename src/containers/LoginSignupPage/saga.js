@@ -1,14 +1,15 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {push} from 'connected-react-router';
-import {LOGIN_USER, REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
+import {LOGIN_USER, LOGOUT_USER, REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
 import {makeSelectUser} from "containers/LoginSignupPage/selectors";
 import * as firebase from "firebase/app";
 import {
     loginUserError,
-    loginUserSuccess,
+    loginUserSuccess, logoutUser,
     registerUserError,
     registerUserSuccess
 } from "containers/LoginSignupPage/actions";
+import {initialState} from "containers/LoginSignupPage/reducer";
 
 /**
  * Github repos request/response handler
@@ -57,21 +58,23 @@ export function* loginUserOnFirebase() {
     }
 }
 
+function* logoutUserSaga() {
+    yield put(loginUserSuccess(initialState));
+    yield put(push('/auth/login'));
+
+}
+
 /**
  * Root saga manages watcher lifecycle
  */
 export function* registerUser() {
-    // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-    // By using `takeLatest` only the result of the latest API call is applied.
-    // It returns task descriptor (just like fork) so we can continue execution
-    // It will be cancelled automatically on component unmount
     yield takeLatest(REGISTER_NEW_USER, registerUserOnFirebase);
 }
 
 export function* loginUser() {
-    // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
-    // By using `takeLatest` only the result of the latest API call is applied.
-    // It returns task descriptor (just like fork) so we can continue execution
-    // It will be cancelled automatically on component unmount
     yield takeLatest(LOGIN_USER, loginUserOnFirebase);
+}
+
+export function* logoutUserWatch() {
+    yield takeLatest(LOGOUT_USER, logoutUserSaga);
 }

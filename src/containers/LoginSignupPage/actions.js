@@ -6,7 +6,7 @@ import {
     REGISTER_NEW_USER_ERROR,
     LOGIN_USER,
     LOGIN_USER_SUCCESS,
-    LOGIN_USER_ERROR,
+    LOGIN_USER_ERROR, LOGOUT_USER,
 } from "containers/LoginSignupPage/constants";
 
 export function updateUserField(field, value) {
@@ -62,5 +62,11 @@ export function loginUserError(error) {
     return {
         type: LOGIN_USER_ERROR,
         error: error.message
+    }
+}
+
+export function logoutUser() {
+    return {
+        type: LOGOUT_USER,
     }
 }

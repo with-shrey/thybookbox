@@ -1,7 +1,7 @@
 import React from 'react';
 import RootRoutes from "routes/RootRoutes";
 import * as firebase from "firebase/app";
-import {loginUserSuccess} from "containers/LoginSignupPage/actions";
+import {loginUserSuccess, logoutUser} from "containers/LoginSignupPage/actions";
 import {connect} from "react-redux";
 
 function App(props) {
@@ -13,6 +13,7 @@ function App(props) {
 
         } else {
             localStorage.removeItem('logged_in');
+            props.logoutUser()
 
         }
     });
@@ -23,4 +24,4 @@ function App(props) {
 
 export default connect(() => {
     return {}
-}, {loginUserSuccess})(App);
+}, {loginUserSuccess, logoutUser})(App);

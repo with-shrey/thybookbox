@@ -6,3 +6,4 @@ export let RESET_USER_REDUCER = 'pages/LoginSignupPage/RESET_USER_REDUCER';
 export let LOGIN_USER = 'pages/LoginSignupPage/LOGIN_USER';
 export let LOGIN_USER_SUCCESS = 'pages/LoginSignupPage/LOGIN_USER_SUCCESS';
 export let LOGIN_USER_ERROR = 'pages/LoginSignupPage/LOGIN_USER_ERROR';
+export let LOGOUT_USER = 'pages/LoginSignupPage/LOGOUT_USER';

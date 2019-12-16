@@ -4,7 +4,7 @@ import {
     REGISTER_NEW_USER_SUCCESS,
     UPDATE_USER_FIELD,
     RESET_USER_REDUCER,
-    LOGIN_USER_SUCCESS, LOGIN_USER_ERROR
+    LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, LOGOUT_USER
 } from './constants';
 import {LOGIN_USER, REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
 

@@ -56,8 +56,6 @@ function BookUploadModalComponent(props) {
                             </Spinner>
                         </div>
                     }
-                    <input style={{marginTop: '20px'}} value={url} onChange={fieldChanged('url')} type="text"
-                           placeholder="PDF Url" disabled/>
                     <input style={{marginTop: '20px'}} value={title} onChange={fieldChanged('title')} type="text"
                            placeholder="Title"/>
                     <input style={{marginTop: '20px'}} value={cover} onChange={fieldChanged('cover')} type="text"

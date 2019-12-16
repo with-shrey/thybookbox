@@ -43,9 +43,13 @@ const selectedBook = (state = initialState, action) =>
                 draft.selected = action.book;
                 break;
             case SELECT_BOOK_ERROR:
+                draft.loading = false;
+                draft.error = action.error;
+                break;
             case GET_READER_CUSTOMIZATION_ERROR:
                 draft.loading = false;
                 draft.error = action.error;
+                draft.customization = initialState.customization;
                 break;
             case SET_PAGE_CONTENT:
                 draft.selected.pageContent = action.pageContent;

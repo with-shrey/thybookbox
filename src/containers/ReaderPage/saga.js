@@ -1,6 +1,7 @@
 import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {GET_READER_CUSTOMIZATION, SELECT_BOOK} from "containers/ReaderPage/constants";
 import * as firebase from "firebase";
+import axios from 'axios';
 import {makeSelectSelectedBook, makeSelectSelectedBookPageContent} from "containers/ReaderPage/selectors";
 import {
     getReaderCustomizationError,
@@ -38,16 +39,20 @@ export function* listenSelectedBook() {
 
 function* getReaderCustomization() {
     const pageContent = yield select(makeSelectSelectedBookPageContent());
-    console.log(pageContent);
+    const url = 'https://thybookbox.com/api/reader/customization/';
     try {
+        const response = yield call(axios.post, url, {
+            text: pageContent
+        });
+        const responseData = response.data;
         const customization = {
-            fontSize: '12px',
-            fontColor: '#7a93ff',
-            fontFamily: null,
-            fontUrl: null,
-            backgroundColor: '#7fff46',
-            backgroundImage: '/static/media/logo-full.854ef618.png',
-            soundClip: 'http://soundbible.com/mp3/tasmanian-devil-daniel_simon.mp3',
+            fontSize: responseData.fontSize,
+            fontColor: responseData.fontColor,
+            fontFamily: responseData.fontFamily,
+            fontUrl: responseData.fontUrl,
+            backgroundColor: responseData.backgroundColor,
+            backgroundImage: responseData.backgroundImage,
+            soundClip: responseData.soundClip,
         };
         yield put(getReaderCustomizationSuccess(customization))
     } catch (e) {

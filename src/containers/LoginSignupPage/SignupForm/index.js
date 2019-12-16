@@ -18,7 +18,10 @@ function SignupForm() {
     const {email, name, password} = useSelector(makeSelectUser());
     const {loading, error} = useSelector(makeSelectAuthStatus());
     const fieldChanged = (field) => (event) => dispatch(updateUserField(field, event.target.value));
-    const handleSubmit = () => dispatch(registerUser());
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(registerUser());
+    };
     return (
         <div className={style.translucentBox}>
             <PageTitle>Register</PageTitle>
@@ -26,7 +29,7 @@ function SignupForm() {
             {
                 error ? <div className={style.error}>{error}</div> : <div></div>
             }
-            <form>
+            <form onSubmit={handleSubmit}>
                 <input
                     className={style.input}
                     type="text"
@@ -54,11 +57,12 @@ function SignupForm() {
                     />) : (
                         <ButtonComponent
                             className={style.input}
-                            link={<div>Login</div>}
+                            link={<div>Register</div>}
                             onClick={handleSubmit}
                         />
                     )
                 }
+                <input type="submit" style={{display: 'none'}} value="submit"/>
             </form>
             Already Registered ? <Link to="/auth/login"> Login</Link>
         </div>

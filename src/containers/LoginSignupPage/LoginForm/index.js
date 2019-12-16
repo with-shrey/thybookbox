@@ -16,8 +16,10 @@ function LoginForm() {
     const {email, password} = useSelector(makeSelectUser());
     const {loading, error} = useSelector(makeSelectAuthStatus());
     const fieldChanged = (field) => (event) => dispatch(updateUserField(field, event.target.value));
-    const handleSubmit = () => dispatch(loginUser());
-    console.log(loading);
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        dispatch(loginUser());
+    };
     return (
         <div className={style.translucentBox}>
             <PageTitle>Login</PageTitle>
@@ -25,7 +27,7 @@ function LoginForm() {
             {
                 error ? <div className={style.error}>{error}</div> : <div></div>
             }
-            <form style={{textAlign: 'center'}}>
+            <form style={{textAlign: 'center'}} onSubmit={handleSubmit}>
                 <input
                     className={style.input}
                     type="email"
@@ -50,6 +52,7 @@ function LoginForm() {
                         />
                     )
                 }
+                <input type="submit" style={{display: 'none'}}/>
 
             </form>
             Not Registered ? <Link to="/auth/register"> Register Now</Link>
