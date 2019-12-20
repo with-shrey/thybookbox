@@ -20,7 +20,6 @@ export function selectBookSuccess(book) {
 }
 
 export function selectBookError(error) {
-    console.log(error);
     return {
         type: SELECT_BOOK_ERROR,
         error: error.message
@@ -48,7 +47,6 @@ export function getReaderCustomizationSuccess(customization) {
 }
 
 export function getReaderCustomizationError(error) {
-    console.log(error);
     return {
         type: GET_READER_CUSTOMIZATION_ERROR,
         error: error.message

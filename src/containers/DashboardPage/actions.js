@@ -4,7 +4,13 @@ import {
     UPLOAD_BOOK_SUCCESS,
     UPLOAD_BOOK_FIELD_UPDATE,
     SAVE_BOOK,
-    SAVE_BOOK_ERROR, SAVE_BOOK_SUCCESS, FETCH_BOOK, FETCH_BOOK_SUCCESS, FETCH_BOOK_ERROR
+    SAVE_BOOK_ERROR,
+    SAVE_BOOK_SUCCESS,
+    FETCH_BOOK,
+    FETCH_BOOK_SUCCESS,
+    FETCH_BOOK_ERROR,
+    FETCH_PUBLIC_BOOK,
+    FETCH_PUBLIC_BOOK_ERROR, FETCH_PUBLIC_BOOK_SUCCESS
 } from "containers/DashboardPage/constants";
 
 export function uploadBook(file) {
@@ -75,6 +81,27 @@ export function fetchBooksFailure(error) {
     console.error(error);
     return {
         type: FETCH_BOOK_ERROR,
+        error: error.message
+    };
+}
+
+export function fetchPublicBooks() {
+    return {
+        type: FETCH_PUBLIC_BOOK,
+    };
+}
+
+export function fetchPublicBooksSuccess(publicBooks) {
+    return {
+        type: FETCH_PUBLIC_BOOK_SUCCESS,
+        publicBooks
+    };
+}
+
+export function fetchPublicBooksFailure(error) {
+    console.error(error);
+    return {
+        type: FETCH_PUBLIC_BOOK_ERROR,
         error: error.message
     };
 }

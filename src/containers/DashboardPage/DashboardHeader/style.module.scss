@@ -1,5 +1,29 @@
 @import "scss/mixins";
 
+.logoutDiv {
+  position: relative;
+  grid-column: logoutButton;
+}
+
+.dropdown {
+  display: none !important;
+  position: fixed;
+  top: 60px;
+  cursor: pointer;
+  background: white;
+  border: 1px solid black;
+  border-radius: 5px;
+  width: 100px
+}
+
+.dropdown:hover {
+  color: blue;
+}
+
+.logoutDiv:hover .dropdown {
+  display: block !important;
+}
+
 .gridContainer {
   @extend .grid-container;
   z-index: 100;
@@ -11,7 +35,7 @@
   column-gap: 10px;
   grid-template-rows: auto;
   background-color: rgba(255, 255, 255, 0.9) !important;
-  grid-template-columns: auto auto auto auto auto auto auto;
+  grid-template-columns: auto auto auto auto auto auto [logoutButton] auto;
 
   div {
     display: flex;

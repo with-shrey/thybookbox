@@ -1,6 +1,11 @@
 import produce from 'immer';
 import {
-    FETCH_BOOK, FETCH_BOOK_ERROR, FETCH_BOOK_SUCCESS,
+    FETCH_BOOK,
+    FETCH_BOOK_ERROR,
+    FETCH_BOOK_SUCCESS,
+    FETCH_PUBLIC_BOOK,
+    FETCH_PUBLIC_BOOK_ERROR,
+    FETCH_PUBLIC_BOOK_SUCCESS,
     SAVE_BOOK_ERROR,
     SAVE_BOOK_SUCCESS,
     UPLOAD_BOOK,
@@ -13,6 +18,7 @@ import {SAVE_BOOK} from "containers/DashboardPage/constants";
 // The initial state of the App
 export const initialState = {
     loading: false,
+    loadingPublicBooks: false,
     error: '',
     book: {
         dialogOpen: false,
@@ -21,9 +27,11 @@ export const initialState = {
         file: {},
         title: '',
         cover: '',
+        isPublic: false,
         url: ''
     },
-    books: []
+    books: [],
+    publicBooks: []
 };
 
 /* eslint-disable default-case, no-param-reassign */
@@ -72,6 +80,18 @@ const bookReducer = (state = initialState, action) =>
                 break;
             case FETCH_BOOK_ERROR:
                 draft.loading = false;
+                draft.error = action.error;
+                break;
+            case FETCH_PUBLIC_BOOK:
+                draft.loadingPublicBooks = true;
+                draft.error = '';
+                break;
+            case FETCH_PUBLIC_BOOK_SUCCESS:
+                draft.loadingPublicBooks = false;
+                draft.publicBooks = action.publicBooks;
+                break;
+            case FETCH_PUBLIC_BOOK_ERROR:
+                draft.loadingPublicBooks = false;
                 draft.error = action.error;
                 break;
         }

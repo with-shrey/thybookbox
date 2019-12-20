@@ -1,6 +1,6 @@
 import {all, spawn, call} from "redux-saga/effects";
 import {registerUser, loginUser, logoutUserWatch} from 'containers/LoginSignupPage/saga';
-import {uploadBook, storeBook, fetchUserBooks} from "containers/DashboardPage/saga";
+import {uploadBook, storeBook, fetchUserBooks, fetchPublicBooks} from "containers/DashboardPage/saga";
 import {listenSelectedBook, listenGetReaderCustomization} from "containers/ReaderPage/saga";
 
 export default function* rootSaga() {
@@ -12,7 +12,8 @@ export default function* rootSaga() {
         fetchUserBooks,
         listenSelectedBook,
         listenGetReaderCustomization,
-        logoutUserWatch
+        logoutUserWatch,
+        fetchPublicBooks
     ];
 
     yield all(sagas.map(saga =>

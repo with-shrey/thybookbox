@@ -9,7 +9,6 @@ function App(props) {
         if (user) {
             localStorage.setItem('logged_in', 'true');
             props.loginUserSuccess(user);
-            console.log(user);
 
         } else {
             localStorage.removeItem('logged_in');

@@ -4,7 +4,7 @@ import {
     REGISTER_NEW_USER_SUCCESS,
     UPDATE_USER_FIELD,
     RESET_USER_REDUCER,
-    LOGIN_USER_SUCCESS, LOGIN_USER_ERROR, LOGOUT_USER
+    LOGIN_USER_SUCCESS, LOGIN_USER_ERROR
 } from './constants';
 import {LOGIN_USER, REGISTER_NEW_USER} from "containers/LoginSignupPage/constants";
 
@@ -13,13 +13,14 @@ export const initialState = {
     uid: '',
     email: '',
     name: '',
+    isAdmin: false,
     password: '',
     loading: false,
     error: ''
 };
 
 /* eslint-disable default-case, no-param-reassign */
-const homeReducer = (state = initialState, action) =>
+const userReducer = (state = initialState, action) =>
     produce(state, draft => {
         switch (action.type) {
             case UPDATE_USER_FIELD:
@@ -35,6 +36,7 @@ const homeReducer = (state = initialState, action) =>
                 draft.uid = action.user.uid;
                 draft.email = action.user.email;
                 draft.name = action.user.displayName;
+                draft.isAdmin = action.user.photoURL === 'true';
                 break;
             case REGISTER_NEW_USER_ERROR:
             case LOGIN_USER_ERROR:
@@ -47,4 +49,4 @@ const homeReducer = (state = initialState, action) =>
         }
     });
 
-export default homeReducer;
+export default userReducer;

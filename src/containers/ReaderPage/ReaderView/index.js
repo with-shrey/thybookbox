@@ -68,7 +68,6 @@ class ReaderView extends Component {
             prevProps.location !== this.props.location &&
             this.location !== this.props.location
         ) {
-            console.log('display', this.props.location);
             this.rendition.display(this.props.location);
         }
     }
@@ -98,6 +97,11 @@ class ReaderView extends Component {
         this.nextPage = () => {
             this.rendition.next();
         };
+        this.book.loaded.cover.then((cover) => {
+            console.log(cover)
+            console.log(this.book.coverUrl().then(console.log));
+        });
+
         this.rendition.on("locationChanged", this.onLocationChange);
         this.rendition.on('relocated', location => this.props.pageChanged(location.start.displayed));
 

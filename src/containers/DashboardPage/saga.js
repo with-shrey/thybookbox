@@ -4,13 +4,13 @@ import {makeSelectUploadFile} from "containers/DashboardPage/selectors";
 import {
     fetchBooks,
     fetchBooksFailure,
-    fetchBooksSuccess,
+    fetchBooksSuccess, fetchPublicBooksFailure, fetchPublicBooksSuccess,
     saveBookFailure,
     saveBookSuccess,
     uploadBookFailure,
     uploadBookSuccess
 } from "containers/DashboardPage/actions";
-import {FETCH_BOOK, SAVE_BOOK, UPLOAD_BOOK} from "containers/DashboardPage/constants";
+import {FETCH_BOOK, FETCH_PUBLIC_BOOK, SAVE_BOOK, UPLOAD_BOOK} from "containers/DashboardPage/constants";
 import {makeSelectUserId} from "containers/LoginSignupPage/selectors";
 
 export function* fetchUserBooks() {
@@ -33,20 +33,41 @@ function* fetchUserBooksSaga() {
     }
 }
 
+export function* fetchPublicBooks() {
+    yield takeLatest(FETCH_PUBLIC_BOOK, fetchPublicBooksSaga);
+}
+
+function* fetchPublicBooksSaga() {
+    const collection = firebase.firestore().collection('Books')
+        .where("isPublic", "==", true);
+    try {
+        let books = yield call([collection, collection.get]);
+        books = books.docs.map(doc => {
+            return {...doc.data(), id: doc.id}
+        });
+        yield put(fetchPublicBooksSuccess(books));
+    } catch (e) {
+        console.trace();
+        yield put(fetchPublicBooksFailure(e));
+    }
+}
+
 export function* storeBook() {
     yield takeLatest(SAVE_BOOK, storeBookSaga);
 }
 
 function* storeBookSaga() {
-    const {title, url, cover} = yield select(makeSelectUploadFile());
+    const {title, url, cover, isPublic} = yield select(makeSelectUploadFile());
     const {uid} = yield select(makeSelectUserId());
+    console.log(title, url, cover, isPublic, uid);
     const collection = firebase.firestore().collection('Books');
     try {
         const book = yield call([collection, collection.add], {
             title,
             url,
-            cover,
-            userId: uid
+            cover: cover || '',
+            userId: uid,
+            isPublic
         });
         yield put(saveBookSuccess());
         yield put(fetchBooks());

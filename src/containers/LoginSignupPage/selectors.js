@@ -10,10 +10,15 @@ const makeSelectUser = () =>
             return {
                 email: userState.email,
                 password: userState.password,
-                name: userState.name
+                name: userState.name,
             }
         },
     );
+export const makeSelectUserIsAdmin = () => createSelector(
+    selectUser,
+    userState => userState.isAdmin
+);
+
 const makeSelectUserId = () =>
     createSelector(
         selectUser,

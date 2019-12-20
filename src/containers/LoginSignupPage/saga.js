@@ -17,7 +17,6 @@ import {initialState} from "containers/LoginSignupPage/reducer";
 export function* registerUserOnFirebase() {
 
     // Select username from store
-    console.log("registerUserOnFirebase")
     const user = yield select(makeSelectUser());
     try {
         const auth = firebase.auth();
@@ -27,9 +26,8 @@ export function* registerUserOnFirebase() {
             user.email, user.password);
         const userPromise = data.user;
         const result = yield call([userPromise, userPromise.updateProfile], {
-            displayName: user.name
+            displayName: user.name,
         });
-        console.log(data.user, result);
         localStorage.setItem('logged_in', 'true');
         yield put(registerUserSuccess(data.user));
         yield put(push('/'));
@@ -41,7 +39,6 @@ export function* registerUserOnFirebase() {
 export function* loginUserOnFirebase() {
 
     // Select username from store
-    console.log("loginUserOnFirebase")
     const user = yield select(makeSelectUser());
     try {
         const auth = firebase.auth();
@@ -49,7 +46,6 @@ export function* loginUserOnFirebase() {
         const data = yield call(
             [auth, auth.signInWithEmailAndPassword],
             user.email, user.password);
-        console.log(data.user);
         localStorage.setItem('logged_in', 'true');
         yield put(loginUserSuccess(data.user));
         yield put(push('/'));

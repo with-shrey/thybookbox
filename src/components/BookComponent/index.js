@@ -7,13 +7,13 @@ import {withRouter} from "react-router-dom";
 
 let BookComponent = (props) => {
     return (
-        <div style={{height: '300px'}} onClick={() => props.history.push(`/reader/${props.id}`)}>
+        <div style={{height: '300px', width: '180px', cursor: 'pointer', margin: '10px'}}
+             onClick={() => props.history.push(`/reader/${props.id}`)}>
             <div style={{height: '80%'}}>
                 <LazyImage style={{height: '100%', width: '100%'}} srcPreload={coverPlaceHolderImage}
                            srcLoaded={props.cover}/>
             </div>
-            <div>{props.title}</div>
-            <div><ProgressBar now={props.progress}/></div>
+            <div style={{paddingTop: '20px'}}>{props.title}</div>
         </div>
     )
 };

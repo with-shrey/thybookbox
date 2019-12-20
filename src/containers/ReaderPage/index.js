@@ -52,11 +52,6 @@ function ReaderPage(props) {
     useEffect(() => {
         dispatchSelectBook(bookId);
     }, [bookId]);
-    if (customizations.soundClip) {
-        let a = new Audio(customizations.soundClip);
-        console.log(a);
-        a.play();
-    }
     return (
         <div style={{
             height: '100vh',
@@ -66,11 +61,16 @@ function ReaderPage(props) {
             gridTemplateColumns: 'auto',
             justifyContent: 'center',
             backgroundColor: customizations.backgroundColor || 'white',
-            backgroundImage: `url(${customizations.backgroundImage})` || 'unset',
+            backgroundImage: customizations.backgroundImage ? `url(${customizations.backgroundImage})` : 'unset',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundSize: 'contain',
         }}>
+            {
+                customizations.soundClip &&
+                <audio src={customizations.soundClip} autoPlay/>
+
+            }
             <ReaderHeader
                 onPrevious={prev}
                 onNext={next}

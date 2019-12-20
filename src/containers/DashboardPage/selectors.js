@@ -21,8 +21,9 @@ const makeSelectUploadFile = () =>
             return {
                 title: bookState.book.title,
                 cover: bookState.book.cover,
+                url: bookState.book.url,
                 file: bookState.book.file,
-                url: bookState.book.url
+                isPublic: bookState.book.isPublic
             }
         },
     );
@@ -52,7 +53,8 @@ const makeSelectBooksList = () =>
         selectBooks,
         bookState => {
             return {
-                books: bookState.books,
+                books: bookState.books || [],
+                publicBooks: bookState.publicBooks || [],
             }
         },
     );

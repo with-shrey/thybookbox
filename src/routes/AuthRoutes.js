@@ -5,7 +5,6 @@ import LoginForm from "containers/LoginSignupPage/LoginForm";
 import UnauthenticatedRoute from "components/UnauthenticatedRoute";
 
 function AuthRoutes(props) {
-    console.log(props);
     return (
         <div style={{height: "100%", width: "100%"}}>
             <Switch>

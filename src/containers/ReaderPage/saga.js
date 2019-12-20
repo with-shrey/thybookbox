@@ -2,26 +2,25 @@ import {call, put, select, takeLatest} from 'redux-saga/effects';
 import {GET_READER_CUSTOMIZATION, SELECT_BOOK} from "containers/ReaderPage/constants";
 import * as firebase from "firebase";
 import axios from 'axios';
-import {makeSelectSelectedBook, makeSelectSelectedBookPageContent} from "containers/ReaderPage/selectors";
+import {makeSelectSelectedBookPageContent} from "containers/ReaderPage/selectors";
 import {
     getReaderCustomizationError,
     getReaderCustomizationSuccess,
     selectBookError,
     selectBookSuccess
 } from "containers/ReaderPage/actions";
+import {debounce} from "redux-saga/effects";
 
 export function* getSelectedBookSaga(action) {
     const selectedBook = {
         id: action.id
     };
-    console.log(selectedBook);
     const bookRef = firebase.firestore().collection('Books')
         .doc(selectedBook.id);
     try {
         let book = yield call([bookRef, bookRef.get]);
         if (book.exists) {
             book = {...book.data(), id: book.id};
-            console.log(book);
             yield put(selectBookSuccess(book));
         } else {
             throw new Error('Book Not Found')
@@ -62,5 +61,5 @@ function* getReaderCustomization() {
 }
 
 export function* listenGetReaderCustomization() {
-    yield takeLatest(GET_READER_CUSTOMIZATION, getReaderCustomization);
+    yield debounce(2000, GET_READER_CUSTOMIZATION, getReaderCustomization);
 }
