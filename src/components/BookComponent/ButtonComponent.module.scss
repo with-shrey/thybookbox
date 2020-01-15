@@ -1,13 +1,14 @@
+@import "scss/variables";
 .deleteButton {
   display: none;
   background: transparent;
-  color: #e0413d;
+  color: $color-accent;
   letter-spacing: 2px;
-  border: 5px solid #e0413d;
+  border: 5px solid $color-accent;
   border-radius: 5px;
 
   &:hover {
-    background: #f3f3f3;
+    background: #c1c1c1;
   }
 }
 
