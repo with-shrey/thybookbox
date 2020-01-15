@@ -47,17 +47,21 @@ class ReaderView extends Component {
     shouldComponentUpdate(nextProps) {
         const {customizations} = nextProps;
 
-        if (customizations.fontUrl) {
-            // Add Css to Head
-        }
-        if (customizations.fontFamily) {
-            this.rendition.themes.font(customizations.fontFamily);
-        }
-        if (customizations.fontSize) {
-            this.rendition.themes.override('font-size', customizations.fontSize);
-        }
-        if (customizations.fontColor) {
-            this.rendition.themes.override('color', customizations.fontColor)
+        if (this.rendition) {
+            if (customizations.fontUrl) {
+                // Add Css to Head
+            }
+            if (customizations.fontFamily) {
+                this.rendition.themes.font(customizations.fontFamily);
+            }
+            if (customizations.fontSize) {
+                this.rendition.themes.override('font-size', customizations.fontSize);
+            }
+            if (customizations.fontColor) {
+                this.rendition.themes.override('color', customizations.fontColor)
+            } else {
+                this.rendition.themes.override('color', '#3e3e3e')
+            }
         }
         return true;
         // return !this.state.isLoaded || nextProps.location !== this.props.location || JSON.stringify(this.props.customizations) !== JSON.stringify(nextProps.customization);

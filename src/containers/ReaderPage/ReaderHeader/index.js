@@ -7,6 +7,7 @@ import {makeSelectBookDialogOpen, makeSelectUserName} from "containers/Dashboard
 import * as firebase from "firebase/app";
 import BookUploadModalComponent from "containers/DashboardPage/BookUploadModalComponent";
 import {uploadBookFieldUpdate} from "containers/DashboardPage/actions";
+import Button from "react-bootstrap/Button";
 
 function ReaderHeader(props) {
     const {name} = useSelector(makeSelectUserName());
@@ -17,16 +18,13 @@ function ReaderHeader(props) {
                 <div onClick={props.onPrevious}>Previous</div>
                 <div className={style.pageno}>{props.pageText}</div>
                 <div onClick={props.onNext}>Next</div>
-                <div>
-                    <Dropdown>
-                        <Dropdown.Toggle variant="success" id="dropdown-basic">
-                            {name}
-                        </Dropdown.Toggle>
-
-                        <Dropdown.Menu>
-                            <Dropdown.Item onClick={() => firebase.auth().signOut()}>Logout</Dropdown.Item>
-                        </Dropdown.Menu>
-                    </Dropdown>
+                <div className={style.logoutDiv}>
+                    <Button variant="success" id="dropdown-basic">
+                        {name}
+                    </Button>
+                    <div className={style.dropdown}>
+                        <div onClick={() => firebase.auth().signOut()}>Logout</div>
+                    </div>
                 </div>
             </div>
             <BookUploadModalComponent/>

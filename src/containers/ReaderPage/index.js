@@ -64,7 +64,8 @@ function ReaderPage(props) {
             backgroundImage: customizations.backgroundImage ? `url(${customizations.backgroundImage})` : 'unset',
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
-            backgroundSize: 'contain',
+            backgroundSize: 'cover',
+            transition: 'background-image 3s ease-in-out'
         }}>
             {
                 customizations.soundClip &&
