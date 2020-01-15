@@ -8,16 +8,17 @@ import * as firebase from "firebase/app";
 import BookUploadModalComponent from "containers/DashboardPage/BookUploadModalComponent";
 import {uploadBookFieldUpdate} from "containers/DashboardPage/actions";
 import Button from "react-bootstrap/Button";
+import {Link} from "react-router-dom";
 
 function ReaderHeader(props) {
     const {name} = useSelector(makeSelectUserName());
     return (
         <>
             <div className={style.gridContainer}>
-                <div><img className={style.logo} src={logo}/></div>
+                <div><Link to={'/'}><img className={style.logo} src={logo}/></Link></div>
                 <div onClick={props.onPrevious}>Previous</div>
-                <div className={style.pageno}>{props.pageText}</div>
-                <div onClick={props.onNext}>Next</div>
+                {/*<div className={style.pageno}>{props.pageText}</div>*/}
+                <div style={{gridColumn: 5}} onClick={props.onNext}>Next</div>
                 <div className={style.logoutDiv}>
                     <Button variant="success" id="dropdown-basic">
                         {name}

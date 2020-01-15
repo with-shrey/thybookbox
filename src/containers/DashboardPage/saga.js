@@ -45,6 +45,7 @@ function* fetchPublicBooksSaga() {
         books = books.docs.map(doc => {
             return {...doc.data(), id: doc.id}
         });
+        console.log(books);
         yield put(fetchPublicBooksSuccess(books));
     } catch (e) {
         console.trace();

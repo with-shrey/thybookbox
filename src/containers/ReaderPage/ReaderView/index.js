@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import EPub, {Contents} from "epubjs";
 import defaultStyle from 'containers/ReaderPage/ReaderView/style';
 import getCfiRange from "utils/getCfiRange";
-
+import InlineView from 'epubjs/lib/managers/views/inline'
 class ReaderView extends Component {
     constructor(props) {
         super(props);
@@ -81,10 +81,11 @@ class ReaderView extends Component {
         const {location, epubOptions, getRendition, customizations} = this.props;
         const node = this.viewerRef.current;
         this.rendition = this.book.renderTo(node, {
-            contained: true,
             width: "100%",
+            method: 'continuous',
+            flow: 'scrolled-doc',
             height: "100%",
-            spread: "none",
+            // view: InlineView,
             ...epubOptions
         });
         this.rendition.themes.override("background", 'transparent');
@@ -101,10 +102,11 @@ class ReaderView extends Component {
         this.nextPage = () => {
             this.rendition.next();
         };
-        this.book.loaded.cover.then((cover) => {
+        this.rendition.book.loaded.cover.then((cover) => {
             console.log(cover)
             console.log(this.book.coverUrl().then(console.log));
         });
+
 
         this.rendition.on("locationChanged", this.onLocationChange);
         this.rendition.on('relocated', location => this.props.pageChanged(location.start.displayed));

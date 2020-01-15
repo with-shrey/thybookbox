@@ -30,10 +30,14 @@
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
   width: 100vw;
   padding: 13px 0px;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  right: 0px;
   column-gap: 10px;
   grid-template-rows: auto;
   background-color: rgba(255, 255, 255, 0.9) !important;
-  grid-template-columns: auto 50px auto auto auto 50px auto;
+  grid-template-columns: auto auto auto auto;
 
   div {
     display: flex;
@@ -62,5 +66,5 @@
 }
 
 .pageno {
-  grid-column: 3 / span 3;
+
 }

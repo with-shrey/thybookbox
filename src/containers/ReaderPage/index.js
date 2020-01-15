@@ -9,7 +9,7 @@ import {
 import LoadingIndicator from "components/LoadingIndicator";
 import {getReaderCustomization, selectBook, setPageContent} from "containers/ReaderPage/actions";
 import {matchPath} from "react-router-dom";
-import defaultStyles from "./style";
+import defaultStyles from "containers/ReaderPage/ReaderPageStyle.module.scss";
 import ReaderView from "containers/ReaderPage/ReaderView";
 import ReaderHeader from "containers/ReaderPage/ReaderHeader";
 
@@ -35,7 +35,7 @@ function ReaderPage(props) {
     }
     */
     const customizations = useSelector(makeSelectBookCustomization());
-    const [pageString, setPageString] = useState('/');
+    const [pageString, setPageString] = useState('');
     const readerRef = useRef(null);
     const next = () => {
         const node = readerRef.current;
@@ -54,19 +54,22 @@ function ReaderPage(props) {
     }, [bookId]);
     return (
         <div style={{
-            height: '100vh',
             maxWidth: '100vw',
             display: 'grid',
-            gridTemplateRows: '80px auto',
+            gridTemplateRows: 'auto',
+            marginTop: '80px',
             gridTemplateColumns: 'auto',
             justifyContent: 'center',
-            backgroundColor: customizations.backgroundColor || 'white',
-            backgroundImage: customizations.backgroundImage ? `url(${customizations.backgroundImage})` : 'unset',
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'center',
-            backgroundSize: 'cover',
-            transition: 'background-image 3s ease-in-out'
         }}>
+            <div
+                className={defaultStyles.backgroundWrapper}
+                style={{
+                    backgroundColor: customizations.backgroundColor || 'white',
+                    backgroundImage: customizations.backgroundImage ? `url(${customizations.backgroundImage})` : 'unset'
+                }}
+            >
+
+            </div>
             {
                 customizations.soundClip &&
                 <audio src={customizations.soundClip} autoPlay/>
@@ -77,7 +80,7 @@ function ReaderPage(props) {
                 onNext={next}
                 pageText={pageString}
             />
-            <div style={{height: "100%", width: '100vw', display: 'flex', justifyContent: 'center'}}>
+            <div style={{height: "100%", display: 'flex', justifyContent: 'center'}}>
 
                 <div style={{height: "100%", width: '70vw'}}>
                     {
@@ -87,10 +90,12 @@ function ReaderPage(props) {
                                 ref={readerRef}
                                 loadingView={<LoadingIndicator/>}
                                 pageChanged={({page, total}) => {
-                                    setPageString(`${page}/${total}`)
+                                    console.log(page, total);
+                                    setPageString(``)
                                 }}
                                 customizations={customizations}
                                 pageContentChanged={newContent => {
+                                    window.scrollTo(0, 0);
                                     dispatchSetPageContent(newContent.trim());
                                     dispatchGetReaderCustomization();
                                 }}

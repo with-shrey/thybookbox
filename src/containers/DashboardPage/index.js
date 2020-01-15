@@ -8,6 +8,8 @@ import {makeSelectBooksList, makeSelectSaveStatus} from "containers/DashboardPag
 import {fetchBooks, fetchPublicBooks} from "containers/DashboardPage/actions";
 import {makeSelectUserId} from "containers/LoginSignupPage/selectors";
 import {Spinner} from "react-bootstrap";
+import LoadingIndicator from "components/LoadingIndicator";
+
 function DashboardPage() {
     const dispatch = useDispatch();
     const {uid} = useSelector(makeSelectUserId());
@@ -30,8 +32,13 @@ function DashboardPage() {
                 <div className={style.books}>
                     {
                         books.length > 0 ?
-                            books.map((book) => <BookComponent key={book.id} cover={book.cover} title={book.title}
-                                                               progress={60} id={book.id}/>) :
+                            books.map((book) => <BookComponent
+                                key={book.id}
+                                cover={book.cover}
+                                title={book.title}
+                                progress={60}
+                                id={book.id}
+                            />) :
                             (
                                 loading ? <div>Loading ...</div> : <div>No Books Found</div>
                             )
@@ -42,11 +49,12 @@ function DashboardPage() {
                 <div className={style.books} id="publicbooks">
                     {
                         publicBooks.length > 0 ? publicBooks.map((book) => <BookComponent key={book.id}
+                                                                                          id={book.id}
                                                                                           cover={book.cover}
                                                                                           title={book.title}
                                                                                           progress={60}/>
                         ) : (
-                            loading ? <div>Loading ...</div> : <div>No Public Books Found</div>
+                            loading ? <LoadingIndicator/> : <div>No Public Books Found</div>
                         )
                     }
                 </div>
