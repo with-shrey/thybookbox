@@ -1,5 +1,6 @@
 import produce from 'immer';
 import {
+    DELETE_BOOK, DELETE_BOOK_ERROR, DELETE_BOOK_LOADING, DELETE_BOOK_SUCCESS,
     FETCH_BOOK,
     FETCH_BOOK_ERROR,
     FETCH_BOOK_SUCCESS,
@@ -19,6 +20,7 @@ import {SAVE_BOOK} from "containers/DashboardPage/constants";
 export const initialState = {
     loading: false,
     loadingPublicBooks: false,
+    deleteBookLoading: false,
     error: '',
     book: {
         dialogOpen: false,
@@ -92,6 +94,17 @@ const bookReducer = (state = initialState, action) =>
                 break;
             case FETCH_PUBLIC_BOOK_ERROR:
                 draft.loadingPublicBooks = false;
+                draft.error = action.error;
+                break;
+            case DELETE_BOOK:
+                draft.loadingPublicBooks = true;
+                draft.error = '';
+                break;
+            case DELETE_BOOK_SUCCESS:
+                draft.deleteBookLoading = false;
+                break;
+            case DELETE_BOOK_ERROR:
+                draft.deleteBookLoading = false;
                 draft.error = action.error;
                 break;
         }

@@ -5,7 +5,7 @@ import BookComponent from "components/BookComponent";
 import PageTitle from "components/PageTitle";
 import {useDispatch, useSelector} from "react-redux";
 import {makeSelectBooksList, makeSelectSaveStatus} from "containers/DashboardPage/selectors";
-import {fetchBooks, fetchPublicBooks} from "containers/DashboardPage/actions";
+import {fetchBooks, fetchPublicBooks, deleteBook} from "containers/DashboardPage/actions";
 import {makeSelectUserId} from "containers/LoginSignupPage/selectors";
 import {Spinner} from "react-bootstrap";
 import LoadingIndicator from "components/LoadingIndicator";
@@ -14,6 +14,7 @@ function DashboardPage() {
     const dispatch = useDispatch();
     const {uid} = useSelector(makeSelectUserId());
     const fetchUserBooks = () => dispatch(fetchBooks());
+    const dispatchDeleteBook = (id) => dispatch(deleteBook(id));
     const callFetchPublicBooks = () => dispatch(fetchPublicBooks());
     useEffect(() => {
         fetchUserBooks();
@@ -37,6 +38,8 @@ function DashboardPage() {
                                 cover={book.cover}
                                 title={book.title}
                                 progress={60}
+                                deleteBook={dispatchDeleteBook}
+                                userId={book.userId}
                                 id={book.id}
                             />) :
                             (
@@ -50,8 +53,10 @@ function DashboardPage() {
                     {
                         publicBooks.length > 0 ? publicBooks.map((book) => <BookComponent key={book.id}
                                                                                           id={book.id}
+                                                                                          userId={book.userId}
                                                                                           cover={book.cover}
                                                                                           title={book.title}
+                                                                                          deleteBook={dispatchDeleteBook}
                                                                                           progress={60}/>
                         ) : (
                             loading ? <LoadingIndicator/> : <div>No Public Books Found</div>

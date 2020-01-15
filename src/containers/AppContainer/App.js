@@ -8,6 +8,7 @@ function App(props) {
     firebase.auth().onAuthStateChanged(function (user) {
         if (user) {
             localStorage.setItem('logged_in', 'true');
+            localStorage.setItem('user_id', user.uid);
             props.loginUserSuccess(user);
 
         } else {

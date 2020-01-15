@@ -1,0 +1,16 @@
+.deleteButton {
+  display: none;
+  background: transparent;
+  color: #e0413d;
+  letter-spacing: 2px;
+  border: 5px solid #e0413d;
+  border-radius: 5px;
+
+  &:hover {
+    background: #f3f3f3;
+  }
+}
+
+.imageWrapper:hover .deleteButton {
+  display: block;
+}

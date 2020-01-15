@@ -1,3 +1,6 @@
+export let DELETE_BOOK = 'containers/DashboardPage/DELETE_BOOK';
+export let DELETE_BOOK_SUCCESS = 'containers/DashboardPage/DELETE_BOOK_SUCCESS';
+export let DELETE_BOOK_ERROR = 'containers/DashboardPage/DELETE_BOOK_ERROR';
 export const CHANGE_USERNAME = 'containers/DashboardPage/CHANGE_USERNAME';
 export const UPLOAD_BOOK = 'containers/DashboardPage/UPLOAD_BOOK';
 export const UPLOAD_BOOK_SUCCESS = 'containers/DashboardPage/UPLOAD_BOOK_SUCCESS';

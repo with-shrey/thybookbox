@@ -10,8 +10,31 @@ import {
     FETCH_BOOK_SUCCESS,
     FETCH_BOOK_ERROR,
     FETCH_PUBLIC_BOOK,
-    FETCH_PUBLIC_BOOK_ERROR, FETCH_PUBLIC_BOOK_SUCCESS
+    DELETE_BOOK,
+    FETCH_PUBLIC_BOOK_ERROR, FETCH_PUBLIC_BOOK_SUCCESS, DELETE_BOOK_LOADING, DELETE_BOOK_ERROR, DELETE_BOOK_SUCCESS
 } from "containers/DashboardPage/constants";
+
+export function deleteBook(id) {
+    return {
+        type: DELETE_BOOK,
+        id
+    };
+}
+
+export function deleteBookSuccess() {
+    return {
+        type: DELETE_BOOK_SUCCESS,
+    };
+}
+
+export function deleteBookError(error) {
+    console.error(error);
+    return {
+        type: DELETE_BOOK_ERROR,
+        error: error.message
+    };
+}
+
 
 export function uploadBook(file) {
     return {

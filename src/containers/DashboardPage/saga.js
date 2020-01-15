@@ -2,6 +2,8 @@ import {call, put, select, takeLatest} from 'redux-saga/effects';
 import * as firebase from "firebase/app";
 import {makeSelectUploadFile} from "containers/DashboardPage/selectors";
 import {
+    deleteBookError,
+    deleteBookSuccess,
     fetchBooks,
     fetchBooksFailure,
     fetchBooksSuccess, fetchPublicBooksFailure, fetchPublicBooksSuccess,
@@ -10,8 +12,9 @@ import {
     uploadBookFailure,
     uploadBookSuccess
 } from "containers/DashboardPage/actions";
-import {FETCH_BOOK, FETCH_PUBLIC_BOOK, SAVE_BOOK, UPLOAD_BOOK} from "containers/DashboardPage/constants";
+import {DELETE_BOOK, FETCH_BOOK, FETCH_PUBLIC_BOOK, SAVE_BOOK, UPLOAD_BOOK} from "containers/DashboardPage/constants";
 import {makeSelectUserId} from "containers/LoginSignupPage/selectors";
+import {func} from "prop-types";
 
 export function* fetchUserBooks() {
     yield takeLatest(FETCH_BOOK, fetchUserBooksSaga);
@@ -76,6 +79,28 @@ function* storeBookSaga() {
     } catch (e) {
         console.trace();
         yield put(saveBookFailure(e));
+    }
+}
+
+export function* deleteBookListner() {
+    // Watches for LOAD_REPOS actions and calls getRepos when one comes in.
+    // By using `takeLatest` only the result of the latest API call is applied.
+    // It returns task descriptor (just like fork) so we can continue execution
+    // It will be cancelled automatically on component unmount
+    yield takeLatest(DELETE_BOOK, deleteBookSaga);
+}
+
+function* deleteBookSaga(action) {
+    const id = action.id;
+    const collection = firebase.firestore().collection('Books').doc(id);
+    try {
+        const book = yield call([collection, collection.delete]);
+        yield put(deleteBookSuccess());
+        yield call(fetchUserBooksSaga);
+        yield call(fetchPublicBooksSaga);
+    } catch (e) {
+        console.trace(e);
+        yield put(deleteBookError(e));
     }
 }
 

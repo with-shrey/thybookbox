@@ -4,12 +4,21 @@ import PropTypes from 'prop-types'
 import LazyImage from "components/LazyImage";
 import coverPlaceHolderImage from 'assets/images/BookComponent/bookCoverPlaceholder.png'
 import {withRouter} from "react-router-dom";
+import style from './ButtonComponent.module.scss';
 
 let BookComponent = (props) => {
     return (
-        <div style={{height: '300px', width: '180px', cursor: 'pointer', margin: '10px'}}
+        <div className={style.imageWrapper} style={{height: '300px', width: '180px', cursor: 'pointer', margin: '10px'}}
              onClick={() => props.history.push(`/reader/${props.id}`)}>
-            <div style={{height: '80%'}}>
+            <div style={{height: '80%', position: 'relative'}}>
+                {
+                    localStorage.getItem('user_id') === props.userId &&
+                    <button onClick={(e) => {
+                        e.stopPropagation();
+                        props.deleteBook(props.id);
+                    }} className={style.deleteButton}
+                            style={{position: 'absolute', top: 10, right: 20, zIndex: 1000}}>DELETE</button>
+                }
                 <LazyImage style={{height: '100%', width: '100%'}} srcPreload={coverPlaceHolderImage}
                            srcLoaded={props.cover}/>
             </div>
