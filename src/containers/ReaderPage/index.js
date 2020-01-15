@@ -35,7 +35,10 @@ function ReaderPage(props) {
     }
     */
     const customizations = useSelector(makeSelectBookCustomization());
-    const [pageString, setPageString] = useState('');
+    const [pageNumber, setPageNumber] = useState(0);
+    const [totalPages, setTotalPages] = useState(0);
+    const [hasNext, setHasNext] = useState(true);
+    const [hasPrev, setHasPrev] = useState(true);
     const readerRef = useRef(null);
     const next = () => {
         const node = readerRef.current;
@@ -78,7 +81,9 @@ function ReaderPage(props) {
             <ReaderHeader
                 onPrevious={prev}
                 onNext={next}
-                pageText={pageString}
+                hasNext={hasNext}
+                hasPrev={hasPrev}
+                pageText={pageNumber + ' / ' + totalPages}
             />
             <div style={{height: "100%", display: 'flex', justifyContent: 'center'}}>
 
@@ -89,9 +94,15 @@ function ReaderPage(props) {
                                 url={url}
                                 ref={readerRef}
                                 loadingView={<LoadingIndicator/>}
-                                pageChanged={({page, total}) => {
-                                    console.log(page, total);
-                                    setPageString(``)
+                                pageChanged={(obj) => {
+                                    if (obj.page) {
+                                        setPageNumber(obj.page);
+                                    }
+                                    if (obj.total) {
+                                        setTotalPages(obj.total)
+                                    }
+                                    setHasNext(obj.hasNext);
+                                    setHasPrev(obj.hasPrev);
                                 }}
                                 customizations={customizations}
                                 pageContentChanged={newContent => {

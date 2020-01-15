@@ -1,9 +1,9 @@
 import React, {Component} from "react";
 import PropTypes from "prop-types";
-import EPub, {Contents} from "epubjs";
+import EPub from "epubjs";
 import defaultStyle from 'containers/ReaderPage/ReaderView/style';
 import getCfiRange from "utils/getCfiRange";
-import InlineView from 'epubjs/lib/managers/views/inline'
+
 class ReaderView extends Component {
     constructor(props) {
         super(props);
@@ -49,7 +49,9 @@ class ReaderView extends Component {
 
         if (this.rendition) {
             if (customizations.fontUrl) {
-                // Add Css to Head
+                this.rendition.getContents().forEach(content => {
+                    content.addStylesheet(customizations.fontUrl).then(console.log)
+                })
             }
             if (customizations.fontFamily) {
                 this.rendition.themes.font(customizations.fontFamily);
@@ -102,15 +104,22 @@ class ReaderView extends Component {
         this.nextPage = () => {
             this.rendition.next();
         };
-        this.rendition.book.loaded.cover.then((cover) => {
-            console.log(cover)
-            console.log(this.book.coverUrl().then(console.log));
+
+        this.rendition.book.loaded.spine.then(spine => {
+            this.props.pageChanged({page: null, total: spine.items.length});
         });
 
-
         this.rendition.on("locationChanged", this.onLocationChange);
-        this.rendition.on('relocated', location => this.props.pageChanged(location.start.displayed));
-
+        // this.rendition.on('relocated', location => this.props.pageChanged(location.start.displayed));
+        this.rendition.on("rendered", (section) => {
+            console.log(section.prev(), section, section.next());
+            this.props.pageChanged({
+                page: section.index + 1,
+                total: null,
+                hasNext: !!section.next(),
+                hasPrev: !!section.prev()
+            });
+        });
         getRendition && getRendition(this.rendition);
     }
 

@@ -16,9 +16,15 @@ function ReaderHeader(props) {
         <>
             <div className={style.gridContainer}>
                 <div><Link to={'/'}><img className={style.logo} src={logo}/></Link></div>
-                <div onClick={props.onPrevious}>Previous</div>
-                {/*<div className={style.pageno}>{props.pageText}</div>*/}
-                <div style={{gridColumn: 5}} onClick={props.onNext}>Next</div>
+                {
+                    props.hasPrev &&
+                    <div onClick={props.onPrevious}>« Previous</div>
+                }
+                <div style={{gridColumn: 4}}>{props.pageText}</div>
+                {
+                    props.hasNext &&
+                    <div style={{gridColumn: 6}} onClick={props.onNext}>Next »</div>
+                }
                 <div className={style.logoutDiv}>
                     <Button variant="success" id="dropdown-basic">
                         {name}
