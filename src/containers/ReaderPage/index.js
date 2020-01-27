@@ -125,8 +125,9 @@ function ReaderPage(props) {
                     backgroundColor={customizations.backgroundColor}
                     backgroundImage={customizations.backgroundImage}
                     getContent={(content) => {
-                        setPageContent(content);
-                        getReaderCustomization();
+                        console.log(content);
+                        dispatchSetPageContent(content);
+                        dispatchGetReaderCustomization();
                     }}
                     url={url || ""}
                     title={title || ""}

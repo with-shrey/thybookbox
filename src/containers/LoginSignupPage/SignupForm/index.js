@@ -4,10 +4,8 @@ import {useDispatch, useSelector} from "react-redux";
 import {makeSelectUser, makeSelectAuthStatus} from "containers/LoginSignupPage/selectors";
 import {registerUser, resetUserReducer, updateUserField} from "containers/LoginSignupPage/actions";
 import ButtonComponent from 'components/ButtonComponent';
-import {Helmet} from "react-helmet";
 import {Link} from "react-router-dom";
 import InPlaceLoader from "components/InPlaceLoader";
-import generateSiteTitle from "utils/generateSiteTitle";
 import PageTitle from "components/PageTitle";
 
 function SignupForm() {
@@ -60,6 +58,7 @@ function SignupForm() {
                             link={<div>Register</div>}
                             onClick={handleSubmit}
                         />
+
                     )
                 }
                 <input type="submit" style={{display: 'none'}} value="submit"/>

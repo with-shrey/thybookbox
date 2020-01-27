@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import PropTypes from "prop-types";
 import Epub from "epubjs/lib/index";
 import defaultStyles from "./style";
+import getCfiRange from "utils/getCfiRange";
 
 global.ePub = Epub; // Fix for v3 branch of epub.js -> needs ePub to by a global var
 
@@ -103,6 +104,10 @@ class EpubView extends Component {
       this.location = newLocation;
       locationChanged && locationChanged(newLocation);
     }
+    const [a, b] = [this.rendition.currentLocation().start.cfi, this.rendition.currentLocation().end.cfi];
+    this.book.getRange(getCfiRange(a, b)).then(range => {
+      this.props.getContent && this.props.getContent(range.toString());
+    })
   };
 
   renderBook() {
