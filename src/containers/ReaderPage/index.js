@@ -9,9 +9,6 @@ import {
 import LoadingIndicator from "components/LoadingIndicator";
 import {getReaderCustomization, selectBook, setPageContent} from "containers/ReaderPage/actions";
 import {matchPath} from "react-router-dom";
-import defaultStyles from "containers/ReaderPage/ReaderPageStyle.module.scss";
-import ReaderView from "containers/ReaderPage/ReaderView";
-import ReaderHeader from "containers/ReaderPage/ReaderHeader";
 import {Container, ReaderContainer} from "components/ReactReader/Components";
 import {ReactReader} from "components/ReactReader/modules";
 import {createGlobalStyle} from "styled-components";

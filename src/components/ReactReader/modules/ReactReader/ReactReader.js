@@ -137,7 +137,7 @@ class ReactReader extends PureComponent {
                   styles.readerArea,
                   expanedToc ? styles.containerExpaned : {},
                   this.props.backgroundColor ? {backgroundColor: this.props.backgroundColor} : {},
-                  this.props.backgroundImage ? {backgroundImage: this.props.backgroundImage} : {}
+                  this.props.backgroundImage ? {backgroundImage: `url(${this.props.backgroundImage})`} : {}
               )}
           >
             {showToc && this.renderTocToggle()}

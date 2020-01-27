@@ -9,6 +9,7 @@ export default {
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",
+    backgroundPosition: 'cover',
     transition: "all .3s ease"
   },
   containerExpaned: {
