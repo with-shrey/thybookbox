@@ -9,7 +9,6 @@ export default {
     height: "100%",
     width: "100%",
     backgroundColor: "#fff",
-    backgroundPosition: 'cover',
     transition: "all .3s ease"
   },
   containerExpaned: {
@@ -25,14 +24,13 @@ export default {
   },
   reader: {
     width: '70%',
-    height: '100%',
-    position: "absolute",
-    top: 50,
-    bottom: 20,
     marginLeft: 'auto',
     marginRight: 'auto',
-    left: 0,
-    right: 0
+    position: "absolute",
+    top: 50,
+    left: 50,
+    bottom: 20,
+    right: 50
   },
   swipeWrapper: {
     position: "absolute",
