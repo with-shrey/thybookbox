@@ -23,9 +23,6 @@ export default {
     color: "#999"
   },
   reader: {
-    width: '70%',
-    marginLeft: 'auto',
-    marginRight: 'auto',
     position: "absolute",
     top: 50,
     left: 50,

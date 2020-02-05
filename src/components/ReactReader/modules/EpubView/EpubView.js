@@ -76,7 +76,6 @@ class EpubView extends Component {
       contained: true,
       width: "100%",
       height: "100%",
-      spread: "none",
       ...epubOptions
     });
     this.rendition.themes.override("background", 'transparent');
