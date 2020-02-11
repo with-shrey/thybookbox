@@ -9,9 +9,37 @@ import {
 import LoadingIndicator from "components/LoadingIndicator";
 import {getReaderCustomization, selectBook, setPageContent} from "containers/ReaderPage/actions";
 import {matchPath} from "react-router-dom";
-import defaultStyles from "containers/ReaderPage/ReaderPageStyle.module.scss";
-import ReaderView from "containers/ReaderPage/ReaderView";
-import ReaderHeader from "containers/ReaderPage/ReaderHeader";
+import {Container, ReaderContainer} from "components/ReactReader/Components";
+import {ReactReader} from "components/ReactReader/modules";
+import {createGlobalStyle} from "styled-components";
+
+
+const GlobalStyle = createGlobalStyle`
+  * {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+    margin: 0;
+    padding: 0;
+    color: inherit;
+    font-size: inherit;
+    font-weight: 300;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  html {
+    font-size: 62.5%;
+  }
+  body {
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    font-size: 1.8rem;
+    background: #333;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    color: #fff;
+  }
+`;
 
 function ReaderPage(props) {
     const match = matchPath(props.history.location.pathname, {
@@ -35,88 +63,77 @@ function ReaderPage(props) {
     }
     */
     const customizations = useSelector(makeSelectBookCustomization());
-    const [pageNumber, setPageNumber] = useState(0);
-    const [totalPages, setTotalPages] = useState(0);
-    const [hasNext, setHasNext] = useState(true);
-    const [hasPrev, setHasPrev] = useState(true);
-    const readerRef = useRef(null);
-    const next = () => {
-        const node = readerRef.current;
-        node.nextPage();
-    };
+    const [location, setLocation] = useState(localStorage.getItem("epub-location") || 2);
+    const [rendition, setRendition] = useState(null);
 
-    const prev = () => {
-        const node = readerRef.current;
-        node.prevPage();
-    };
     const dispatchSelectBook = (id) => dispatch(selectBook(id));
     const dispatchGetReaderCustomization = () => dispatch(getReaderCustomization());
     const dispatchSetPageContent = (content) => dispatch(setPageContent(content));
     useEffect(() => {
         dispatchSelectBook(bookId);
     }, [bookId]);
-    return (
-        <div style={{
-            maxWidth: '100vw',
-            display: 'grid',
-            gridTemplateRows: 'auto',
-            marginTop: '80px',
-            gridTemplateColumns: 'auto',
-            justifyContent: 'center',
-        }}>
-            <div
-                className={defaultStyles.backgroundWrapper}
-                style={{
-                    backgroundColor: customizations.backgroundColor || 'white',
-                    backgroundImage: customizations.backgroundImage ? `url(${customizations.backgroundImage})` : 'unset'
-                }}
-            >
 
-            </div>
+    useEffect(() => {
+        if (rendition) {
+            if (customizations.fontUrl) {
+                rendition.getContents().forEach(content => {
+                    content.addStylesheet(customizations.fontUrl).then(console.log)
+                })
+            }
+            if (customizations.fontFamily) {
+                rendition.themes.font(customizations.fontFamily);
+            }
+            if (customizations.fontSize) {
+                rendition.themes.override('font-size', customizations.fontSize);
+            }
+            if (customizations.fontColor) {
+                rendition.themes.override('color', customizations.fontColor)
+            } else {
+                rendition.themes.override('color', 'inherit')
+            }
+        }
+    }, [customizations.fontFamily, customizations.fontUrl, customizations.fontSize, customizations.fontColor, rendition]);
+
+    const onLocationChanged = location => {
+        localStorage && localStorage.setItem("epub-location", location);
+        setLocation(location);
+    };
+
+    const getRendition = renditionInst => {
+        // Set inital font-size, and add a pointer to rendition for later updates
+        renditionInst.themes.override("background", 'transparent');
+        setRendition(renditionInst);
+    };
+    /*
+
+
+
+     */
+    return (
+        <Container>
             {
                 customizations.soundClip &&
                 <audio src={customizations.soundClip} autoPlay/>
 
             }
-            <ReaderHeader
-                onPrevious={prev}
-                onNext={next}
-                hasNext={hasNext}
-                hasPrev={hasPrev}
-                pageText={pageNumber + ' / ' + totalPages}
-            />
-            <div style={{height: "100%", display: 'flex', justifyContent: 'center'}}>
-
-                <div style={{height: "100%", width: '70vw'}}>
-                    {
-                        url ? (
-                            <ReaderView
-                                url={url}
-                                ref={readerRef}
-                                loadingView={<LoadingIndicator/>}
-                                pageChanged={(obj) => {
-                                    if (obj.page) {
-                                        setPageNumber(obj.page);
-                                    }
-                                    if (obj.total) {
-                                        setTotalPages(obj.total)
-                                    }
-                                    setHasNext(obj.hasNext);
-                                    setHasPrev(obj.hasPrev);
-                                }}
-                                customizations={customizations}
-                                pageContentChanged={newContent => {
-                                    window.scrollTo(0, 0);
-                                    dispatchSetPageContent(newContent.trim());
-                                    dispatchGetReaderCustomization();
-                                }}
-                            />
-                        ) : <></>
-                    }
-
-                </div>
-            </div>
-        </div>
+            <GlobalStyle/>
+            <ReaderContainer fullscreen={true}>
+                <ReactReader
+                    backgroundColor={customizations.backgroundColor}
+                    backgroundImage={customizations.backgroundImage}
+                    getContent={(content) => {
+                        console.log(content);
+                        dispatchSetPageContent(content);
+                        dispatchGetReaderCustomization();
+                    }}
+                    url={url || ""}
+                    title={title || ""}
+                    location={location}
+                    locationChanged={onLocationChanged}
+                    getRendition={getRendition}
+                />
+            </ReaderContainer>
+        </Container>
     )
 
 }
